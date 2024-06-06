@@ -1,55 +1,5 @@
 #include "judge.h"
 
-int is_s(char a)               //是否属于字母
-{
-    if ((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z'))
-        return 1;
-    else
-        return 0;
-}
-
-int is_d(char a)               //是否属于0-9
-{
-    if (a >= '0' && a <= '9')
-        return 1;
-    else
-        return 0;
-}
-
-int is_K(char a[])             //是否为K中的值
-{
-    int flag;
-    for (int i = 0; i < 15; i++)
-    {
-        flag = 0;
-        for (int j = 0; j < 8; j++)
-        {
-            if (a[j] != K[i][j])
-                flag = 1;
-        }
-        if (flag == 0)
-            return i + 1;
-    }
-    return 0;
-}
-
-int is_T(char a[])             //是否为T中的值
-{
-    int flag;
-    for (int i = 0; i < 4; i++)
-    {
-        flag = 0;
-        for (int j = 0; j < strlen(T[i])&& j < strlen(a); j++)
-        {
-            if (a[j] != T[i][j])
-                flag = 1;
-        }
-        if (flag == 0)
-            return i + 1;
-    }
-    return 0;
-}
-
 int is_P(char a[], int d)       //是否为P中的值
 {
     int flag;
@@ -268,11 +218,18 @@ int is_ST(char a[])            //是否为ST(字符串常量)中的值,如果不是，则存入
     }
 }
 
-int is_S(char a[])            //是否为S(数组表)中的值,如果不是，则存入
-{
-    int k, i, m = 0, j;
-    if (SS == 0)
-    {
+int is_S(string a){            //是否为S(数组表)中的值,如果不是，则存入
+    int p=a.find("["),q=a.find("]"),k, i, m = 0, j;
+    string t=a.substr(0,p),ind=a.substr(p+1,q-p);
+    Array arr(t,ind);
+    if(S[arr])
+        return S[arr];
+    else{
+        Sk.push_back(arr);
+        return S[arr]=Sk.size();
+    }
+    
+    if (SS == 0){
         for (k = 0; a[k] != '['; k++)
             S[SS][0][k] = a[k];
         k++;
@@ -280,24 +237,18 @@ int is_S(char a[])            //是否为S(数组表)中的值,如果不是，则存入
             S[SS][1][j] = a[k];
         SS++;
         return SS;
-    }
-    else
-    {
-        for (k = 0; k < SS && m == 0; k++)
-        {
-            for (i = 0; a[i] != '['; i++)
-            {
+    }else{
+        for (k = 0; k < SS && m == 0; k++){
+            for (i = 0; a[i] != '['; i++){
                 if (a[i] != S[k][0][i])
                     break;
             }
-            if (a[i] == '[')
-            {
+            if (a[i] == '['){
                 m = k + 1;
                 break;
             }
         }
-        if (m == 0)
-        {
+        if (m == 0){
             for (k = 0; a[k] != '['; k++)
                 S[SS][0][k] = a[k];
             k++;
@@ -305,7 +256,7 @@ int is_S(char a[])            //是否为S(数组表)中的值,如果不是，则存入
                 S[SS][1][j] = a[k];
             SS++;
             return SS;
-        }
-        else return m;
+        }else 
+            return m;
     }
 }
