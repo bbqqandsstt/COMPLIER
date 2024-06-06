@@ -1,32 +1,5 @@
 #include "judge.h"
 
-int is_P(char a[], int d)       //是否为P中的值
-{
-    int flag;
-    for (int i = 0; i < 30; i++)
-    {
-        flag = 0;
-        for (int j = 0; j < d; j++)
-        {
-            if (a[j] != P[i][j])
-                flag = 1;
-        }
-        if (flag == 0)
-            return i + 1;
-    }
-    return 0;
-}
-
-int is_P1(char a)              //辅助函数
-{
-    for (int i = 0; i < 22; i++)
-    {
-        if (a == P1[i][0])
-            return 1;
-    }
-    return 0;
-}
-
 int is_I(char a[])             //是否为I(标识符)中的值,如果不是，则存入
 {
     int k, i, m = 0;
@@ -219,7 +192,7 @@ int is_ST(char a[])            //是否为ST(字符串常量)中的值,如果不是，则存入
 }
 
 int is_S(string a){            //是否为S(数组表)中的值,如果不是，则存入
-    int p=a.find("["),q=a.find("]"),k, i, m = 0, j;
+    int p=a.find("["),q=a.find("]");
     string t=a.substr(0,p),ind=a.substr(p+1,q-p);
     Array arr(t,ind);
     if(S[arr])
@@ -228,7 +201,8 @@ int is_S(string a){            //是否为S(数组表)中的值,如果不是，则存入
         Sk.push_back(arr);
         return S[arr]=Sk.size();
     }
-    
+    /* 
+    int k, i, m = 0, j;
     if (SS == 0){
         for (k = 0; a[k] != '['; k++)
             S[SS][0][k] = a[k];
@@ -258,5 +232,5 @@ int is_S(string a){            //是否为S(数组表)中的值,如果不是，则存入
             return SS;
         }else 
             return m;
-    }
+    } */
 }

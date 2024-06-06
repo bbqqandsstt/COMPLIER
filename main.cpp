@@ -8,10 +8,11 @@ vector<string> Kk={
     "else","scanf","printf","include","struct" 
 }; 
 map<string,int> K;        //关键字表
-char P[30][3] = { "-","/","(",")","=","==",">",">=","<","<=","+","+=","*",",",";","++","--","{","}","\"","'","#","&","[","]","%","%d","%f","%c","%s"};        //界符表
+vector<string> Pk = {"-","/","(",")","=","==",">",">=","<","<=","+","+=","*",",",";","++","--","{","}","\"","'","#","&","[","]","%","%d","%f","%c","%s"};
+map<string,int> P;     //界符表
 char P1[22][2] = { "-","/","(",")","=",">","<","+","*",",",";","+","-","{","}","\"","'","#","&","[","]","%" };        //辅助界符表
-vector<string> Tk = {"stdio.h","stdlib.h","string.h","math.h"};
-map<string,int> T;                 //头文件表
+vector<string> Hk = {"stdio.h","stdlib.h","string.h","math.h"};
+map<string,int> H;                 //头文件表
 char I[20][20];                //标识符表
 int I_Type[20];             //标识符所对应的类型****************************************************
 int I_Type2[20];            //标识符是变量(=1)还是形参(=2)****************************************************
@@ -35,13 +36,15 @@ int len;                       //输入的字符串长度
 int error = 0;                   //判断语法是否错误  0为无错误     1为有错误
 int token[200][2];          //Token序列表****************************************************
 int token_len = 0;               //Token序列表的长度（行数）
-char formType[10][3] = { " ","K","P","I","C1","C2","CT","ST","T","S" };     //K=1，P=2，I=3......
+char formType[10][3] = { " ","K","P","I","C1","C2","CT","ST","H","S" };     //K=1，P=2，I=3......
 
 void init(){
     for(int i=0;i<Kk.size();i++)
         K[Kk[i]]=i+1;
-    for(int i=0;i<Tk.size();i++)
-        T[Tk[i]]=i+1;
+    for(int i=0;i<Hk.size();i++)
+        H[Hk[i]]=i+1;
+    for(int i=0;i<Pk.size();i++)
+        P[Pk[i]]=i+1;
 }
 int main(){
     init();
@@ -75,7 +78,7 @@ int main(){
                         cout << Kk[token[i][1] - 1] << " ";
                 }
                 else if (token[i][0] == 2)
-                    cout << P[token[i][1] - 1] << " ";
+                    cout << Pk[token[i][1] - 1] << " ";
                 else if (token[i][0] == 3)
                     cout << I[token[i][1] - 1] << " ";
                 else if (token[i][0] == 4)
@@ -87,7 +90,7 @@ int main(){
                 else if (token[i][0] == 7)
                     cout << ST[token[i][1] - 1] << " ";
                 else if (token[i][0] == 8)
-                    cout <<"<"<<Tk[token[i][1] - 1]<<">"<< " ";
+                    cout <<"<"<<Hk[token[i][1] - 1]<<">"<< " ";
                 else if (token[i][0] == 9)
                     cout << S[token[i][1] - 1][0] << "[" << S[token[i][1] - 1][1] << "]" << " ";
             }

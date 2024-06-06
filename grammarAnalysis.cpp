@@ -16,10 +16,10 @@ void count_data()                       //辅助函数   x1为表的名字，x2为具体值,x3
         x1[1] = formType[token[Next_w][0]][1];
     else x1[1] = '\0';
     mm = token[Next_w][1] - 1;
-    if (strcmp(x1, "T") == 0)
+    if (strcmp(x1, "H") == 0)
     {
-        for (i = 0; T[mm][i] != '\0'; i++)
-            x2[i] = T[mm][i];
+        for (i = 0; H[mm][i] != '\0'; i++)
+            x2[i] = H[mm][i];
         for (j = i; j < 20; j++)
             x2[j] = '\0';
     }
@@ -89,7 +89,7 @@ void CX()          //程序开始   <CX> → {<WB>}<HD>{<HD>}
     while (strcmp(x2, "include") == 0)
     {
         Next_w++; count_data();
-        if (strcmp(x1, "T") == 0)
+        if (strcmp(x1, "H") == 0)
         {
             Next_w++; count_data();
         }

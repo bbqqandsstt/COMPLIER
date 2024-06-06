@@ -3,9 +3,9 @@
 using namespace std;
 extern const int max_len;         //输入字符串的最大长度
 extern map<string,int> K;        //关键字表
-extern char P[30][3];        //界符表
+extern map<string,int> P;        //界符表
 extern char P1[22][2];        //辅助界符表
-extern map<string,int> T;                 //头文件表
+extern map<string,int> H;                 //头文件表
 extern char I[20][20];                //标识符表
 extern int I_Type[20];             //标识符所对应的类型****************************************************
 extern int I_Type2[20];            //标识符是变量(=1)还是形参(=2)****************************************************
@@ -21,11 +21,11 @@ extern char ST[20][10];               //字符串常量
 extern int STT;                     //字符串常量表的长度
 struct Array;
 extern vector<Array> Sk;
-extern char S[20][2][10];             //数组表
+extern map<Array,int> S;             //数组表
 extern int S_Type[20];             //数组中标识符所对应的类型
 extern int SS;                      //数组表的长度
 extern int SS_Type;                 //数组中标识符的类别对应的长度
-extern char Input[];            ///输入的字符串
+extern string Input;            ///输入的字符串
 extern int len;                       //输入的字符串长度
 extern int error;                   //判断语法是否错误  0为无错误
 extern int token[200][2];          //Token序列表
