@@ -2,190 +2,120 @@
 
 
 /*  *****************     词法分析开始      *****************  */
-void wordAnalyse()                  //词法分析函数
-{
-    char a[30];               
-    int j, k, m;
-    int t = 0;                 
-    for (int i = 0; i < len;)
-    {
-        if (Input[i] == '#')
-        {
-            j = 0;
+void wordAnalyse(){                  //词法分析函数
+    string a;               
+    int j, k, m,t = 0;                 
+    for (int i = 0; i < len;){
+        if (Input[i] == '#'){
             i++;
-            while (is_s(Input[i]))
-            {
-                a[j] = Input[i];
-                i++;
-                j++;
-            }
-            for (int k = j; k < 20; k++)
-                a[k] = '\0';
-            m = is_K(a);
-            if (m)
-            {
+            for(;isalpha(Input[i]);i++)
+                a.push_back(Input[i]);
+            m = K[a];
+            if (m){
                 token[token_len][0] = 1;
-                token[token_len][1] = m;
-                token_len++;
-            }
-            else
-            {
+                token[token_len++][1] = m;
+            }else{
                 error = 1;
                 return;
             }
-            while (Input[i]!='<')
-            {
-                i++;
-            }
-            j = 0;
+            for(;Input[i]!='<';i++);
+            a.clear();
             i++;
-            while (Input[i] != '>')
-            {
-                a[j] = Input[i];
-                i++;
-                j++;
-            }
-            a[j] = '\0';
+            for(;Input[i] != '>';i++)
+                a.push_back(Input[i]); 
             i++;
-            m = is_T(a);
-            if (m)
-            {
+            m = T[a];
+            if (m){
                 token[token_len][0] = 8;
                 token[token_len][1] = m;
                 token_len++;
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
-           
-        }
-        else if (is_s(Input[i]) || Input[i] == '_')   //如果首字符是字母或下划线
-        {
-            j = 0;
-            a[j] = Input[i];
-            i++;
-            j++;
-            while (is_s(Input[i]) || is_d(Input[i]) || Input[i] == '_')
-            {
-                a[j] = Input[i];
-                i++;
-                j++;
-            }
-            if (Input[i] == '[')
-            {
-                a[j] = Input[i];
-                i++;
-                j++;
-                while (is_d(Input[i]) || is_s(Input[i]) || Input[i] == '_')
-                {
-                    a[j] = Input[i];
-                    i++;
-                    j++;
-                }
+        }else if(isalpha(Input[i]) || Input[i] == '_'){   //如果首字符是字母或下划线
+            a = string(1,Input[i++]);
+            for(;isalnum(Input[i]) || Input[i] == '_';i++)
+                a+=Input[i];  
+            if (Input[i] == '['){
+                a+= Input[i++];
+                for(;isalnum(Input[i]) || Input[i] == '_';i++)
+                    a+= Input[i];
                 if (Input[i] == ']')
-                {
-                    a[j] = Input[i];
-                    i++;
-                    j++;
-                }
-                for (int k = j; k < 20; k++)
-                    a[k] = '\0';
+                    a+= Input[i++];
                 m = is_S(a);
                 token[token_len][0] = 9;
-                token[token_len][1] = m;
-                token_len++;
-            }
-            else
-            {
+                token[token_len++][1] = m;
+            }else{
                 for (int k = j; k < 20; k++)
                     a[k] = '\0';
-                m = is_K(a);
-                if (m)
-                {
+                m = K[a];
+                if (m){
                     token[token_len][0] = 1;
                     token[token_len][1] = m;
                     token_len++;
-                }
-                else
-                {
+                }else{
                         m = is_I(a);
                         token[token_len][0] = 3;
                         token[token_len][1] = m;
                         token_len++;
                 }
             }
-        }
-        else if (is_d(Input[i]))        //如果首字符是数字
-        {
+        }else if (isdigit(Input[i])){        //如果首字符是数字
             int q = 0;
             j = 0;
             a[j] = Input[i];
             i++;
             j++;
-            while ((a[0] != '0' || (a[0] == '0' && Input[i] == '.') || (a[0] == '0' && a[1] == '.')) && (is_d(Input[i]) ||
+            while ((a[0] != '0' || (a[0] == '0' && Input[i] == '.') || (a[0] == '0' && a[1] == '.')) && (isdigit(Input[i]) ||
                 Input[i] == '.' || Input[i] == 'e' || (Input[i] == '-' && Input[i - 1] == 'e') ||
-                (Input[i] == '+' && Input[i - 1] == 'e')))
-            {
+                (Input[i] == '+' && Input[i - 1] == 'e'))){
                 if (Input[i] == '.') q = 1;
                 if (Input[i] == 'e' && Input[i + 1] == '-') q = -1;
                 a[j] = Input[i];
                 i++;
                 j++;
             }
-            if (is_s(Input[i]) == 1)
-            {
+            if (isalpha(Input[i])){
                 error = 1;
                 return;
             }
             for (k = j; k < 10; k++)
                 a[k] = '\0';
-            if (q == 0)
-            {
+            if (q == 0){
                 m = is_C1(a);
                 token[token_len][0] = 4;
                 token[token_len][1] = m;
                 token_len++;
-            }
-            else
-            {
+            }else{
                 m = is_C2(a, q);
                 token[token_len][0] = 5;
                 token[token_len][1] = m;
                 token_len++;
             }
-        }
-        else if (t == 0 && (Input[i] == '\'' || (Input[i] == '"' && Input[i - 1] != '(' && Input[i + 1] != ')') || (Input[i] == '"' && Input[i - 1] == '(' && Input[i + 1] != '%')))
-        {
+        }else if (t == 0 && (Input[i] == '\'' || (Input[i] == '"' && Input[i - 1] != '(' && Input[i + 1] != ')') || (Input[i] == '"' && Input[i - 1] == '(' && Input[i + 1] != '%'))){
             j = 0;
             a[j] = Input[i];
             i++;
             j++;
-            while (a[0] == '"' && Input[i] != '"')
-            {
+            while (a[0] == '"' && Input[i] != '"'){
                 a[j] = Input[i];
                 i++;
                 j++;
             }
-            if (a[0] == '"')
-            {
+            if (a[0] == '"'){
                 a[j] = Input[i];
                 i++;
                 j++;
             }
-            if (a[0] == '\'')
-            {
+            if (a[0] == '\''){
                 a[j] = Input[i];
                 i++;
                 j++;
-                if (Input[i] != '\'')
-                {
+                if (Input[i] != '\''){
                     error = 1;
                     return;
-                }
-                else
-                {
+                }else{
                     a[j] = Input[i];
                     i++;
                     j++;
@@ -193,27 +123,21 @@ void wordAnalyse()                  //词法分析函数
             }
             for (int k = j; k < 10; k++)
                 a[k] = '\0';
-            if (a[0] == '\'')
-            {
+            if (a[0] == '\''){
                 m = is_CT(a);
                 token[token_len][0] = 6;
                 token[token_len][1] = m;
                 token_len++;
-            }
-            else if (a[0] == '"')
-            {
+            }else if (a[0] == '"'){
                 m = is_ST(a);
                 token[token_len][0] = 7;
                 token[token_len][1] = m;
                 token_len++;
             }
-        }
-        else if (is_P1(Input[i]))       //如果首字符是界符
-        {
+        }else if (is_P1(Input[i])){       //如果首字符是界符
             j = 0;
             int u = 0;
-            if (t == 0 && Input[i] == '"')
-            {
+            if (t == 0 && Input[i] == '"'){
                 t = 1;
                 u = 1;
             }
@@ -225,8 +149,7 @@ void wordAnalyse()                  //词法分析函数
                 || (a[0] == '+' && Input[i] == '=')|| (a[0] == '-' && Input[i] == '=')|| (a[0] == '*' && Input[i] == '=')
                 ||(a[0] == '/' && Input[i] == '=')|| (a[0] == '%' && Input[i] == '=')
                 || (a[0] == '+' && Input[i] == '+') || (a[0] == '-' && Input[i] == '-') || (a[0] == '%' && Input[i] == 'd')
-                || (a[0] == '%' && Input[i] == 'f') || (a[0] == '%' && Input[i] == 'c') || (a[0] == '%' && Input[i] == 's'))
-            {
+                || (a[0] == '%' && Input[i] == 'f') || (a[0] == '%' && Input[i] == 'c') || (a[0] == '%' && Input[i] == 's')){
                 a[j] = Input[i];
                 i++;
                 j++;
@@ -237,10 +160,9 @@ void wordAnalyse()                  //词法分析函数
             token[token_len][0] = 2;
             token[token_len][1] = m;
             token_len++;
-        }
-        else if (Input[i] == ' ')i++;
-        else                           //如果以上都不是
-        {
+        }else if (Input[i] == ' ')
+            i++;
+        else{                           //如果以上都不是
             error = 1;
             return;
         }
