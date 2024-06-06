@@ -58,10 +58,9 @@ void wordAnalyse(){                  //词法分析函数
                     token[token_len][0] = 1;
                     token[token_len++][1] = m;
                 }else{
-                        m = is_I(a);
-                        token[token_len][0] = 3;
-                        token[token_len][1] = m;
-                        token_len++;
+                    m = is_I(a);
+                    token[token_len][0] = 3;
+                    token[token_len++][1] = m;
                 }
             }
         }else if (isdigit(Input[i])){        //如果首字符是数字

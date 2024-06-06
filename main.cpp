@@ -2,7 +2,6 @@
 #include "wordAnalysis.h"
 #include "printOut.h"
 
-const int max_len = 3000;         //输入字符串的最大长度
 vector<string> Kk={
     "void","int","float","char"," string","while","const","for","return","if",
     "else","scanf","printf","include","struct" 
@@ -10,10 +9,10 @@ vector<string> Kk={
 map<string,int> K;        //关键字表
 vector<string> Pk = {"-","/","(",")","=","==",">",">=","<","<=","+","+=","*",",",";","++","--","{","}","\"","'","#","&","[","]","%","%d","%f","%c","%s"};
 map<string,int> P;     //界符表
-char P1[22][2] = { "-","/","(",")","=",">","<","+","*",",",";","+","-","{","}","\"","'","#","&","[","]","%" };        //辅助界符表
 vector<string> Hk = {"stdio.h","stdlib.h","string.h","math.h"};
 map<string,int> H;                 //头文件表
-char I[20][20];                //标识符表
+vector<string> Ik;
+map<string,int> I;                //标识符表
 int I_Type[20];             //标识符所对应的类型****************************************************
 int I_Type2[20];            //标识符是变量(=1)还是形参(=2)****************************************************
 int II = 0;                      //标识符表的现长度
@@ -80,7 +79,7 @@ int main(){
                 else if (token[i][0] == 2)
                     cout << Pk[token[i][1] - 1] << " ";
                 else if (token[i][0] == 3)
-                    cout << I[token[i][1] - 1] << " ";
+                    cout << Ik[token[i][1] - 1] << " ";
                 else if (token[i][0] == 4)
                     cout << C1[token[i][1] - 1] << " ";
                 else if (token[i][0] == 5)

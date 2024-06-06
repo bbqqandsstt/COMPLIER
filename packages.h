@@ -1,14 +1,14 @@
 #pragma once
 #include<bits/stdc++.h>
 using namespace std;
-extern const int max_len;         //输入字符串的最大长度
+
 extern map<string,int> K;        //关键字表
 extern map<string,int> P;        //界符表
-extern char P1[22][2];        //辅助界符表
 extern map<string,int> H;                 //头文件表
-extern char I[20][20];                //标识符表
-extern int I_Type[20];             //标识符所对应的类型****************************************************
-extern int I_Type2[20];            //标识符是变量(=1)还是形参(=2)****************************************************
+extern vector<string> Ik;
+extern map<string,int> I;                //标识符表
+extern int I_Type[20];             //标识符所对应的类型
+extern int I_Type2[20];            //标识符是变量(=1)还是形参(=2)
 extern int II;                      //标识符表的现长度
 extern int II_Type;                 //标识符对应类型的现长度
 extern char C1[20][10];                 //常整数表

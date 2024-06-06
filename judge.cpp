@@ -1,40 +1,15 @@
 #include "judge.h"
 
-int is_I(char a[])             //是否为I(标识符)中的值,如果不是，则存入
-{
-    int k, i, m = 0;
-    if (II == 0)
-    {
-        for (k = 0; k < 20; k++)
-            I[II][k] = a[k];
-        II++;
-        return II;
-    }
-    else
-    {
-        for (k = 0; k < II && m == 0; k++)
-        {
-            for (i = 0; i < 20; i++)
-            {
-                if (i == 19 && a[19] == I[k][19])
-                    m = k + 1;
-                else if (a[i] != I[k][i])
-                    break;
-            }
-        }
-        if (m == 0)
-        {
-            for (k = 0; k < 20; k++)
-                I[II][k] = a[k];
-            II++;
-            return II;
-        }
-        else
-            return m;
+int is_I(string a){             //是否为I(标识符)中的值,如果不是，则存入
+    if(I.count(a))
+        return I[a];
+    else{
+        Ik.push_back(a);
+        return I[a]=Ik.size();
     }
 }
 
-int is_C1(char a[])            //是否为C1(常整数)中的值,如果不是，则存入
+int is_C1(string a)            //是否为C1(常整数)中的值,如果不是，则存入
 {
     int k, i, m = 0;
     if (CC1 == 0)
@@ -67,7 +42,7 @@ int is_C1(char a[])            //是否为C1(常整数)中的值,如果不是，则存入
     }
 }
 
-int is_C2(char a[], int q)      //是否为C2(常实数)中的值,如果不是，则存入
+int is_C2(string a, int q)      //是否为C2(常实数)中的值,如果不是，则存入
 {
     int k, i, m = 0;
     if (q == -1)                  //说明1：目前只对e后面的符号是'-'的数字进行变换，而'+'的话直接将原表达式进行录入。
@@ -125,8 +100,9 @@ int is_C2(char a[], int q)      //是否为C2(常实数)中的值,如果不是，则存入
     }
 }
 
-int is_CT(char a[])            //是否为CT(字符常量)中的值,如果不是，则存入
+int is_CT(string a)            //是否为CT(字符常量)中的值,如果不是，则存入
 {
+    
     int k, i, m = 0;
     if (CTT == 0)
     {
@@ -158,7 +134,7 @@ int is_CT(char a[])            //是否为CT(字符常量)中的值,如果不是，则存入
     }
 }
 
-int is_ST(char a[])            //是否为ST(字符串常量)中的值,如果不是，则存入
+int is_ST(string a)            //是否为ST(字符串常量)中的值,如果不是，则存入
 {
     int k, i, m = 0;
     if (STT == 0)
