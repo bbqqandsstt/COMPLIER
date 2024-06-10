@@ -9,42 +9,29 @@ int is_I(string a){             //是否为I(标识符)中的值,如果不是，则存入
     }
 }
 
-int is_C1(string a)            //是否为C1(常整数)中的值,如果不是，则存入
-{
-    int k, i, m = 0;
-    if (CC1 == 0)
-    {
-        for (k = 0; k < 10; k++)
-            C1[CC1][k] = a[k];
-        CC1++;
-        return CC1;
-    }
-    else
-    {
-        for (k = 0; k < CC1 && m == 0; k++)
-        {
-            for (i = 0; i < 10; i++)
-            {
-                if (i == 9 && a[9] == C1[k][9])
-                    m = k + 1;
-                else if (a[i] != C1[k][i])
-                    break;
-            }
-        }
-        if (m == 0)
-        {
-            for (k = 0; k < 10; k++)
-                C1[CC1][k] = a[k];
-            CC1++;
-            return CC1;
-        }
-        else return m;
+int is_C1(string a){            //是否为C1(常整数)中的值,如果不是，则存入
+    
+    if(C1.count(a))
+        return C1[a];
+    else{
+        C1k.push_back(a);
+        return C1[a]=C1k.size();
     }
 }
 
-int is_C2(string a, int q)      //是否为C2(常实数)中的值,如果不是，则存入
-{
-    int k, i, m = 0;
+int is_C2(string a){      //是否为C2(常实数)中的值,如果不是，则存入
+    double num=stod(a);
+    stringstream ss;
+    ss<<scientific<<num;
+    a=ss.str();
+    if(C2.count(a))
+        return C2[a];
+    else{
+        C2k.push_back(a);
+        return C2[a]=C2k.size();
+    }
+        
+    /* int k, i, m = 0;
     if (q == -1)                  //说明1：目前只对e后面的符号是'-'的数字进行变换，而'+'的话直接将原表达式进行录入。
     {                          //说明2：目前默认e-后面的数字为个数，为了节约内存空间而简易化操作。
         int num, x;//1.23e-3   0.00123
@@ -98,78 +85,37 @@ int is_C2(string a, int q)      //是否为C2(常实数)中的值,如果不是，则存入
         }
         else return m;
     }
+ */
 }
 
-int is_CT(string a)            //是否为CT(字符常量)中的值,如果不是，则存入
-{
-    
-    int k, i, m = 0;
-    if (CTT == 0)
-    {
-        for (k = 0; k < 10; k++)
-            CT[CTT][k] = a[k];
-        CTT++;
-        return CTT;
-    }
-    else
-    {
-        for (k = 0; k < CTT && m == 0; k++)
-        {
-            for (i = 0; i < 10; i++)
-            {
-                if (i == 9 && a[9] == CT[k][9])
-                    m = k + 1;
-                else if (a[i] != CT[k][i])
-                    break;
-            }
-        }
-        if (m == 0)
-        {
-            for (k = 0; k < 10; k++)
-                CT[CTT][k] = a[k];
-            CTT++;
-            return CTT;
-        }
-        else return m;
+int is_CT(string a){            //是否为CT(字符常量)中的值,如果不是，则存入
+    if(CT.count(a))
+        return CT[a];
+    else{
+        CTk.push_back(a);
+        return CT[a]=CTk.size();
     }
 }
 
-int is_ST(string a)            //是否为ST(字符串常量)中的值,如果不是，则存入
-{
-    int k, i, m = 0;
-    if (STT == 0)
-    {
-        for (k = 0; k < 10; k++)
-            ST[STT][k] = a[k];
-        STT++;
-        return STT;
-    }
-    else
-    {
-        for (k = 0; k < STT && m == 0; k++)
-        {
-            for (i = 0; i < 10; i++)
-            {
-                if (i == 9 && a[9] == ST[k][9])
-                    m = k + 1;
-                else if (a[i] != ST[k][i])
-                    break;
-            }
-        }
-        if (m == 0)
-        {
-            for (k = 0; k < 10; k++)
-                ST[STT][k] = a[k];
-            STT++;
-            return STT;
-        }
-        else return m;
+int is_ST(string a){            //是否为ST(字符串常量)中的值,如果不是，则存入
+    if(ST.count(a))
+        return ST[a];
+    else{
+        STk.push_back(a);
+        return ST[a]=STk.size();
     }
 }
 
 int is_S(string a){            //是否为S(数组表)中的值,如果不是，则存入
-    int p=a.find("["),q=a.find("]");
+    size_t p=a.find("["),q=a.find("]");
     string t=a.substr(0,p),ind=a.substr(p+1,q-p);
+    try{
+        p=stoi(ind,&q);
+        if(ind.find_first_not_of(" ",q)!=string::npos)
+            throw runtime_error("");
+    }catch(exception e){
+        return -1;
+    }
     Array arr(t,ind);
     if(S[arr])
         return S[arr];

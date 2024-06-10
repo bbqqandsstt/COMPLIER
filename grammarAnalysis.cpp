@@ -1,151 +1,86 @@
 #include "grammarAnalysis.h"
 
-int kk = 1;
-int Next_w = 0;
-char x1[2], x2[20];
-int x3, x4;
-char yy[20];
-int y2 = 0;
+int kk = 1,Next_w = 0,x3, x4,y2 = 0;
+string x1, x2,yy;
 
 /*  *****************     Óï·¨·ÖÎö¿ªÊ¼      *****************  */
-void count_data()                       //¸¨Öúº¯Êý   x1Îª±íµÄÃû×Ö£¬x2Îª¾ßÌåÖµ,x3ÎªtokenµÄµÚÒ»¸öÊý×Ö£¬x4ÎªtokenµÄµÚ¶þ¸öÊý×Ö
-{
-    int mm, i, j;
-    x1[0] = formType[token[Next_w][0]][0];
-    if (formType[token[Next_w][0]][1] != '\0')
-        x1[1] = formType[token[Next_w][0]][1];
-    else x1[1] = '\0';
-    mm = token[Next_w][1] - 1;
-    if (strcmp(x1, "H") == 0)
-    {
-        for (i = 0; H[mm][i] != '\0'; i++)
-            x2[i] = H[mm][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    else if (strcmp(x1, "K") == 0)
-    {
-        for (i = 0; K[mm][i] != '\0'; i++)
-            x2[i] = K[mm][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    else if (strcmp(x1, "P") == 0)
-    {
-        for (i = 0; P[mm][i] != '\0'; i++)
-            x2[i] = P[mm][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    else if (strcmp(x1, "I") == 0)
-    {
-        for (i = 0; I[mm][i] != '\0'; i++)
-            x2[i] = I[mm][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    else if (strcmp(x1, "C1") == 0)
-    {
-        for (i = 0; C1[mm][i] != '\0'; i++)
-            x2[i] = C1[mm][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    else if (strcmp(x1, "C2") == 0)
-    {
-        for (i = 0; C2[mm][i] != '\0'; i++)
-            x2[i] = C2[mm][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    else if (strcmp(x1, "CT") == 0)
-    {
-        for (i = 0; CT[mm][i] != '\0'; i++)
-            x2[i] = CT[mm][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    else if (strcmp(x1, "ST") == 0)
-    {
-        for (i = 0; ST[mm][i] != '\0'; i++)
-            x2[i] = ST[mm][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    else if (strcmp(x1, "S") == 0)
-    {
-        for (i = 0; S[mm][0][i] != '\0'; i++)
-            x2[i] = S[mm][0][i];
-        for (j = i; j < 20; j++)
-            x2[j] = '\0';
-    }
-    x3 = token[Next_w][0];
-    x4 = token[Next_w][1];
+void count_data(){                       //¸¨Öúº¯Êý   x1Îª±íµÄÃû×Ö£¬x2Îª¾ßÌåÖµ,x3ÎªtokenµÄµÚÒ»¸öÊý×Ö£¬x4ÎªtokenµÄµÚ¶þ¸öÊý×Ö
+    tie(x3,x4)=token[Next_w];
+    int mm=x4-1, i, j;
+    x1 = formType[x3];
+    if (x1=="H")
+        x2= Hk[mm];
+    else if (x1=="K")
+        x2= Kk[mm];
+    else if (x1=="P")
+        x2= Pk[mm];
+    else if (x1=="I")
+        x2= Ik[mm];
+    else if (x1=="C1")
+        x2= C1k[mm];
+    else if (x1=="C2")
+        x2= C2k[mm];
+    else if (x1=="CT")
+        x2= CTk[mm];
+    else if (x1=="ST")
+        x2= STk[mm];
+    else if (x1=="S")
+        x2= Sk[mm].type;
 }
 
-void CX()          //³ÌÐò¿ªÊ¼   <CX> ¡ú {<WB>}<HD>{<HD>}
-{
+void CX(){          //³ÌÐò¿ªÊ¼   <CX> ¡ú {<WB>}<HD>{<HD>}
     count_data();
-    while (strcmp(x2, "include") == 0)
-    {
+    while (x2=="include"){
         Next_w++; count_data();
-        if (strcmp(x1, "H") == 0)
-        {
+        if (x1=="H"){
             Next_w++; count_data();
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
     }
-    while (strcmp(x2, "int") == 0 || strcmp(x2, "float") == 0 || strcmp(x2, "char") == 0 || strcmp(x2, "string") == 0)
-    {
+    while (x2=="int"||x2=="float"||x2=="char"||x2=="string"){
         WB();
-        if (error == 1) return;
+        if (error) 
+            return;
     }
     HD();
-    if (error == 1) return;
-    while (strcmp(x2, "void") == 0)
-    {
+    if (error) 
+        return;
+    while (x2=="void"){
         HD();
-        if (error == 1) return;
+        if (error) 
+            return;
     }
-    if (Next_w < token_len) error = 1;
+    if (Next_w < token_len) 
+        error = 1;
 }
 
-void WB()          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<¡°BS¡±>[{<¡®,¡®><¡°BS¡±>}|<FG>]<¡¯;¡¯>|<¡±SZ¡±>[<SF>]<¡¯;¡¯>)
-{
-    int aa;
-    aa = BL();
-    if (aa == 0)return;
-    if (strcmp(x1, "I") == 0)
-    {
+void WB(){          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<¡°BS¡±>[{<¡®,¡®><¡°BS¡±>}|<FG>]<¡¯;¡¯>|<¡±SZ¡±>[<SF>]<¡¯;¡¯>)
+    int aa= BL();
+    if (!aa)
+        return;
+    if (x1=="I"){
         for (int q = 0; q < II_Type; q++)
-        {
-            if (strcmp(I[q], x2) == 0)
-            {
+            if (Ik[q]==x2){
                 error = 1;
                 return;
             }
-        }
         I_Type[II_Type] = aa;
         I_Type2[II_Type] = 1;
         II_Type++;
         Next_w++; count_data();
-        if (strcmp(x2, "=") == 0)
-        {
+        if (x2=="="){
             Next_w--; count_data();
             s.push(x2);
             Next_w++; count_data();
             FG(aa);
-            if (error == 1)return;
+            if (error)
+                return;
         }
-        while (strcmp(x2, ",") == 0)
-        {
+        while (x2==","){
             Next_w++; count_data();
-            if (strcmp(x1, "I") != 0)
-            {
+            if (x1!="I"){
                 error = 1;
                 return;
             }
@@ -153,1097 +88,731 @@ void WB()          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<¡°BS¡±>[{<¡®,¡®><¡°BS¡±>}|<FG>]<¡¯
             I_Type2[II_Type] = 1;
             II_Type++;
             Next_w++; count_data();
-            if (strcmp(x2, "=") == 0)
-            {
+            if (x2=="="){
                 Next_w--; count_data();
                 s.push(x2);
                 Next_w++; count_data();
                 FG(aa);
-                if (error == 1)return;
+                if (error)
+                    return;
             }
         }
-        if (strcmp(x2, ";") == 0)
-        {
+        if (x2==";"){
             Next_w++; count_data();
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
     }
-    else if (strcmp(x1, "S") == 0)
-    {
+    else if (x1=="S"){
         int s_len1;
         for (int q = 0; q < SS_Type; q++)
-        {
-            if (strcmp(S[q][0], x2) == 0)
-            {
+            if (Sk[q].type==x2){
                 error = 1;
                 return;
             }
-        }
         S_Type[SS_Type] = aa;
-        s_len1 = S[SS_Type][1][0] - '0';  //ÔÝÊ±Ö»¿¼ÂÇÊý×é³¤¶ÈÎª¸öÎ»ÊýµÄÇé¿ö
+        s_len1 = stoi(Sk[SS_Type].index);
         SS_Type++;
         Next_w++; count_data();
-        if (strcmp(x2, "=") == 0)
-        {
+        if (x2=="="){
             SF(aa, s_len1);
-            if (error == 1)return;
+            if (error)
+                return;
         }
-        if (strcmp(x2, ";") == 0)
-        {
+        if (x2==";"){
             Next_w++; count_data();
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
-    }
-    else
-    {
+    }else{
         error = 1;
         return;
     }
-
 }
 
-int BL()           //±äÁ¿ÉùÃ÷   <BL> ¡ú int | float | char |string
-{
-    if (strcmp(x2, "int") == 0)
-    {
+int BL(){           //±äÁ¿ÉùÃ÷   <BL> ¡ú int | float | char |string
+    if (x2=="int"){
         Next_w++; count_data();
         return 1;
-    }
-    else if (strcmp(x2, "float") == 0)
-    {
+    }else if (x2=="float"){
         Next_w++; count_data();
         return 2;
-    }
-    else if (strcmp(x2, "char") == 0)
-    {
+    }else if (x2=="char"){
         Next_w++; count_data();
         return 3;
-    }
-    else if (strcmp(x2, "string") == 0)
-    {
+    }else if (x2=="string"){
         Next_w++; count_data();
         return 4;
-    }
-    else
-    {
+    }else{
         error = 1;
         return 0;
     }
 }
 
-void FG(int aa)    //¸³Öµ¸ñÊ½   <FG> ¡ú <¡¯=¡¯>(<¡±ZC¡±>|<SB>)
-{
-    if (strcmp(x2, "=") == 0)
-    {
+void FG(int aa){    //¸³Öµ¸ñÊ½   <FG> ¡ú <¡¯=¡¯>(<¡±ZC¡±>|<SB>)
+    if (x2=="="){
         Next_w++; count_data();
-        if (strcmp(x1, "CT") == 0 && aa == 3)
-        {
+        if (x1=="CT" && aa == 3){
             s.push(x2);
             Next_w++; count_data();
-        }
-        else if (strcmp(x1, "ST") == 0 && aa == 4)
-        {
+        }else if (x1=="ST" && aa == 4){
             s.push(x2);
             Next_w++; count_data();
-        }
-        else
-        {
+        }else{
             SB(aa);
-            if (error == 1) return;
+            if (error) 
+                return;
         }
         QUATFUZHI();
-    }
-    else
-    {
+    }else{
         error = 1;
         return;
     }
 }
 
-void SB(int aa)    //Ëã·û±í´ïÊ½ <SB> ¡ú <SD><SE>
-{
+void SB(int aa){    //Ëã·û±í´ïÊ½ <SB> ¡ú <SD><SE>
     SD(aa);
-    if (error == 1)return;
+    if (error)
+        return;
     SE(aa);
-    if (error == 1)return;
+    if (error)
+        return;
 }
 
-void SE(int aa)    //Ëã·û±í´ïÊ½ <SE> ¡ú [(+|-)<SD><SE>]
-{
+void SE(int aa){    //Ëã·û±í´ïÊ½ <SE> ¡ú [(+|-)<SD><SE>]
     int cc;
-    if (strcmp(x2, "+") == 0 || strcmp(x2, "-") == 0)
-    {
-        if (strcmp(x2, "+") == 0)
-        {
-            cc = 1;
-        }
-        else if (strcmp(x2, "-") == 0)
-        {
-            cc = 2;
-        }
+    if (x2=="+"||x2=="-"){
+        cc=1+(x2=="-");
         Next_w++; count_data();
         SD(aa);
-        if (error == 1)return;
-        if (cc == 1)
-        {
+        if (error)
+            return;
+        if (cc-1){
+            QUATJIAN();
+            jilu++;
+        }else{
             QUATJIA();
             jilu++;
         }
-        else if (cc == 2)
-        {
-            QUATJIAN();
-            jilu++;
-        }
         SE(aa);
-        if (error == 1)return;
-    }
-    else
-    {
+        if (error)
+            return;
+    }else
         return;
-    }
 }
 
-void SD(int aa)    //Ëã·û±í´ïÊ½ <SD> ¡ú <SV><SU>
-{
+void SD(int aa){    //Ëã·û±í´ïÊ½ <SD> ¡ú <SV><SU>
     SV(aa);
-    if (error == 1)return;
+    if (error)
+        return;
     SU(aa);
-    if (error == 1)return;
+    if (error)
+        return;
 }
 
-void SU(int aa)    //Ëã·û±í´ïÊ½ <SU> ¡ú [(*|/)<SV><SU>]
-{
+void SU(int aa){    //Ëã·û±í´ïÊ½ <SU> ¡ú [(*|/)<SV><SU>]
     int cc;
-    if (strcmp(x2, "*") == 0 || strcmp(x2, "/") == 0)
-    {
-        if (strcmp(x2, "*") == 0)
-        {
-            cc = 3;
-        }
-        else if (strcmp(x2, "/") == 0)
-        {
-            cc = 4;
-        }
+    if (x2=="*"||x2=="/"){
+        cc=3+(x2=="/");
         Next_w++; count_data();
         SV(aa);
-        if (error == 1)return;
-        if (cc == 3)
-        {
+        if (error)
+            return;
+        if (cc-3){
+            QUATCHU();
+            jilu++;
+        }else{
             QUATCHENGE();
             jilu++;
         }
-        else if (cc == 4)
-        {
-            QUATCHU();
-            jilu++;
-        }
         SU(aa);
-        if (error == 1)return;
-    }
-    else
-    {
+        if (error)
+            return;
+    }else
         return;
-    }
 }
 
-void SV(int aa)    //Ëã·û±í´ïÊ½ <SV> ¡ú <¡±BS¡±> push(i)|<¡±SS¡±> push(i)|<¡¯(¡¯><SB><¡¯)¡¯>
-{
-    if (strcmp(x1, "I") == 0 && aa == I_Type[x4 - 1])
-    {
+void SV(int aa){    //Ëã·û±í´ïÊ½ <SV> ¡ú <¡±BS¡±> push(i)|<¡±SS¡±> push(i)|<¡¯(¡¯><SB><¡¯)¡¯>
+    if (x1=="I" && aa == I_Type[x4 - 1]){
         s.push(x2);
         Next_w++; count_data();
-    }
-    else if (strcmp(x1, "C1") == 0 && aa == 1)
-    {
+    }else if (x1=="C1" && aa == 1){
         s.push(x2);
         Next_w++; count_data();
-    }
-    else if (strcmp(x1, "C2") == 0 && aa == 2)
-    {
+    }else if (x1=="C2" && aa == 2){
         s.push(x2);
         Next_w++; count_data();
-    }
-    else if (strcmp(x2, "(") == 0)
-    {
+    }else if (x2=="("){
         Next_w++; count_data();
         SB(aa);
-        if (error == 1)return;
-        if (strcmp(x2, ")") == 0)
-        {
+        if (error)
+            return;
+        if (x2==")"){
             Next_w++; count_data();
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
-    }
-    else
-    {
+    }else{
         error = 1;
         return;
     }
 }
 
-void SF(int aa, int bb)    //Êý×é¿ªÊ¼¸³Öµ¸ñÊ½  <SF> ¡ú <¡¯=¡¯><¡®{¡¯>(<¡±SS¡±>{<¡±SS¡±>}|<¡±ZC¡±>{<¡±ZC¡±>})<¡¯}¡¯>
-{
+void SF(int aa, int bb){    //Êý×é¿ªÊ¼¸³Öµ¸ñÊ½  <SF> ¡ú <¡¯=¡¯><¡®{¡¯>(<¡±SS¡±>{<¡±SS¡±>}|<¡±ZC¡±>{<¡±ZC¡±>})<¡¯}¡¯>
     int i = 0;
-    if (strcmp(x2, "=") == 0)
-    {
+    if (x2=="="){
         Next_w++; count_data();
-        if (strcmp(x2, "{") == 0)
-        {
+        if (x2=="{"){
             Next_w++; count_data();
-            if (strcmp(x1, "C1") == 0 && aa == 1)
-            {
+            if (x1=="C1" && aa == 1){
                 i++;
                 Next_w++; count_data();
-                while (strcmp(x2, ",") == 0)
-                {
+                while (x2==","){
                     Next_w++; count_data();
-                    if (strcmp(x1, "C1") == 0)
-                    {
+                    if (x1=="C1"){
                         i++;
                         Next_w++; count_data();
-                    }
-                    else
-                    {
+                    }else{
                         error = 1;
                         return;
                     }
                 }
-            }
-            else if (strcmp(x1, "C2") == 0 && aa == 2)
-            {
+            }else if (x1=="C2"&& aa == 2){
                 i++;
                 Next_w++; count_data();
-                while (strcmp(x2, ",") == 0)
-                {
+                while (x2==","){
                     Next_w++; count_data();
-                    if (strcmp(x1, "C2") == 0)
-                    {
+                    if (x1=="C2"){
                         i++;
                         Next_w++; count_data();
-                    }
-                    else
-                    {
+                    }else{
                         error = 1;
                         return;
                     }
                 }
-            }
-            else if (strcmp(x1, "CT") == 0 && aa == 3)
-            {
+            }else if (x1=="CT" && aa == 3){
                 i++;
                 Next_w++; count_data();
-                while (strcmp(x2, ",") == 0)
-                {
+                while (x2==","){
                     Next_w++; count_data();
-                    if (strcmp(x1, "CT") == 0)
-                    {
+                    if (x1=="CT"){
                         i++;
                         Next_w++; count_data();
-                    }
-                    else
-                    {
+                    }else{
                         error = 1;
                         return;
                     }
                 }
-            }
-            else if (strcmp(x1, "ST") == 0 && aa == 4)
-            {
+            }else if (x1=="ST" && aa == 4){
                 i++;
                 Next_w++; count_data();
-                while (strcmp(x2, ",") == 0)
-                {
+                while (x2==","){
                     Next_w++; count_data();
-                    if (strcmp(x1, "ST") == 0)
-                    {
+                    if (x1=="ST"){
                         i++;
                         Next_w++; count_data();
-                    }
-                    else
-                    {
+                    }else{
                         error = 1;
                         return;
                     }
                 }
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
-            if (i > bb)
-            {
+            if (i > bb){
                 error = 1;
                 return;
             }
-            if (strcmp(x2, "}") == 0)
-            {
+            if (x2=="}"){
                 Next_w++; count_data();
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
-    }
-    else
-    {
+    }else{
         error = 1;
         return;
     }
 }
 
-void HD()          //º¯Êý¶¨Òå   <HD> ¡ú <void><ZF><'{'><YG>{<YG>}<'}'>
-{
-    if (strcmp(x2, "void") == 0)
-    {
+void HD(){          //º¯Êý¶¨Òå   <HD> ¡ú <void><ZF><'{'><YG>{<YG>}<'}'>
+    if (x2=="void"){
         Next_w++; count_data();
         ZF();
-        if (error == 1)return;
-        if (strcmp(x2, "{") == 0)
-        {
+        if (error)
+            return;
+        if (x2=="{"){
             Next_w++; count_data();
-            if (strcmp(x2, "}") == 0)
-            {
+            if (x2=="}"){
                 Next_w++; count_data();
                 return;
             }
             YG();
-            if (error == 1)return;
-            while (strcmp(x2, "}") != 0)
-            {
+            if (error)
+                return;
+            while (x2!="}"){
                 YG();
-                if (error == 1)return;
+                if (error)
+                    return;
             }
             Next_w++; count_data();
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
-    }
-    else
-    {
+    }else{
         error = 1;
         return;
     }
 }
 
-void ZF()          //Ö±½ÓËµÃ÷·û <ZF> ¡ú <¡°BS¡±><¡®(¡¯>[<CL>]<¡®)¡¯>
-{
-    if (strcmp(x1, "I") == 0)
-    {
+void ZF(){          //Ö±½ÓËµÃ÷·û <ZF> ¡ú <¡°BS¡±><¡®(¡¯>[<CL>]<¡®)¡¯>
+    if (x1=="I"){
         I_Type[II_Type] = 5;
         I_Type2[II_Type] = 0;
         II_Type++;
         Next_w++; count_data();
-        if (strcmp(x2, "(") == 0)
-        {
+        if (x2=="("){
             Next_w++; count_data();
-            if (strcmp(x2, "int") == 0 || strcmp(x2, "float") == 0 || strcmp(x2, "char") == 0 || strcmp(x2, "string") == 0)
-            {
+            if (x2=="int"||x2=="float"||x2=="char"||x2=="string"){
                 CL();
-                if (error == 1)return;
+                if (error)
+                    return;
             }
-            if (strcmp(x2, ")") == 0)
-            {
+            if (x2==")"){
                 Next_w++; count_data();
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
-    }
-    else
-    {
+    }else{
         error = 1;
         return;
     }
 }
 
-void CL()          //²ÎÊýÁÐ±í   <CL> ¡ú <BL><¡°BS¡±>{<¡¯,¡¯><BL><¡°BS¡±>}
-{
-    int aa;
-    aa = BL();
-    if (strcmp(x1, "I") == 0)
-    {
+void CL(){          //²ÎÊýÁÐ±í   <CL> ¡ú <BL><¡°BS¡±>{<¡¯,¡¯><BL><¡°BS¡±>}
+    int aa= BL();
+    if (x1=="I"){
         I_Type[II_Type] = aa;
         I_Type2[II_Type] = 2;
         II_Type++;
         Next_w++; count_data();
-        while (strcmp(x2, ",") == 0)
-        {
+        while (x2==","){
             Next_w++; count_data();
             aa = BL();
-            if (error == 1)return;
-            if (strcmp(x1, "I") == 0)
-            {
+            if (error)
+                return;
+            if (x1=="I"){
                 I_Type[II_Type] = aa;
                 I_Type2[II_Type] = 2;
                 II_Type++;
                 Next_w++; count_data();
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
         }
-    }
-    else
-    {
+    }else{
         error = 1;
         return;
     }
 }
 
-void YG()          //Óï¾ä       <YG> ¡ú <WB>|<BY><¡¯;¡¯>|<XY>|<XH>
-{
-    if (strcmp(x2, "int") == 0 || strcmp(x2, "float") == 0 || strcmp(x2, "char") == 0 || strcmp(x2, "string") == 0)
-    {
+void YG(){          //Óï¾ä       <YG> ¡ú <WB>|<BY><¡¯;¡¯>|<XY>|<XH>
+    if (x2=="int"||x2=="float"||x2=="char"||x2=="string")
         WB();
-        if (error == 1)return;
-    }
-    else if (strcmp(x2, "scanf") == 0 || strcmp(x2, "printf") == 0 || strcmp(x1, "I") == 0 || strcmp(x1, "S") == 0)
-    {
+    else if (x2=="scanf"||x2=="printf"||x1=="I"||x1=="S"){
         BY();
-        if (error == 1)return;
-        if (strcmp(x2, ";") == 0)
-        {
-            Next_w++; count_data();
-        }
-        else
-        {
-            error = 1;
+        if (error)
             return;
-        }
-    }
-    else if (strcmp(x2, "if") == 0)
-    {
+        if (x2==";"){
+            Next_w++; count_data();
+        }else
+            error = 1;
+    }else if (x2=="if")
         XY();
-        if (error == 1)return;
-    }
-    else if (strcmp(x2, "for") == 0 || strcmp(x2, "while") == 0)
-    {
+    else if (x2=="for"||x2=="while")
         XH();
-        if (error == 1)return;
-    }
     else
-    {
         error = 1;
-        return;
-    }
 }
 
-void BY()          //±í´ïÊ½Óï¾ä <BY> ¡ú <scanf><¡¯(¡¯><RG><¡®)¡®>|<printf><¡¯(¡¯><CG><¡®)¡®>|<FZ>
-{
-    if (strcmp(x2, "scanf") == 0)
-    {
+void BY(){          //±í´ïÊ½Óï¾ä <BY> ¡ú <scanf><¡¯(¡¯><RG><¡®)¡®>|<printf><¡¯(¡¯><CG><¡®)¡®>|<FZ>
+    if (x2=="scanf"){
         Next_w++; count_data();
-        if (strcmp(x2, "(") == 0)
-        {
+        if (x2=="("){
             Next_w++; count_data();
             RG();
-            if (error == 1)return;
-            if (strcmp(x2, ")") == 0)
-            {
-                Next_w++; count_data();
-            }
-            else
-            {
-                error = 1;
+            if (error)
                 return;
-            }
-        }
-        else
-        {
+            if (x2==")"){
+                Next_w++; count_data();
+            }else
+                error = 1;
+        }else
             error = 1;
-            return;
-        }
-    }
-    else if (strcmp(x2, "printf") == 0)
-    {
+    }else if (x2=="printf"){
         Next_w++; count_data();
-        if (strcmp(x2, "(") == 0)
-        {
+        if (x2=="("){
             Next_w++; count_data();
             CG();
-            if (error == 1)return;
-            if (strcmp(x2, ")") == 0)
-            {
-                Next_w++; count_data();
-            }
-            else
-            {
-                error = 1;
+            if (error)
                 return;
-            }
-        }
-        else
-        {
+            if (x2==")"){
+                Next_w++; count_data();
+            }else
+                error = 1;
+        }else
             error = 1;
-            return;
-        }
-    }
-    else
-    {
+    }else
         FZ();
-        if (error == 1)return;
-    }
 }
 
-void RG()          //ÊäÈë¸ñÊ½   <RG> ¡ú <¡¯¡°¡®><GF><¡¯¡±¡¯><¡¯,¡¯>(<¡¯&¡¯><¡°BS¡±>|<¡°SZ¡±>)
-{
+void RG(){          //ÊäÈë¸ñÊ½   <RG> ¡ú <¡¯¡°¡®><GF><¡¯¡±¡¯><¡¯,¡¯>(<¡¯&¡¯><¡°BS¡±>|<¡°SZ¡±>)
     int aa;
-    if (strcmp(x2, "\"") == 0)
-    {
+    if (x2=="\""){
         Next_w++; count_data();
         aa = GF();
-        if (error == 1)return;
-        if (strcmp(x2, "\"") == 0)
-        {
-            Next_w++; count_data();
-            if (strcmp(x2, ",") == 0)
-            {
-                Next_w++; count_data();
-                if (strcmp(x2, "&") == 0)
-                {
-                    Next_w++; count_data();
-                    if (strcmp(x1, "I") != 0)
-                    {
-                        error = 1;
-                        return;
-                    }
-                    if (aa == I_Type[x4 - 1])
-                    {
-                        Next_w++; count_data();
-                    }
-                    else
-                    {
-                        error = 1;
-                        return;
-                    }
-                }
-                else if (strcmp(x1, "S") == 0)
-                {
-                    if (aa == S_Type[x4 - 1])
-                    {
-                        Next_w++; count_data();
-                    }
-                    else
-                    {
-                        error = 1;
-                        return;
-                    }
-                }
-                else
-                {
-                    error = 1;
-                    return;
-                }
-            }
-            else
-            {
-                error = 1;
-                return;
-            }
-        }
-        else
-        {
-            error = 1;
+        if (error)
             return;
-        }
-    }
-    else
-    {
+        if (x2=="\""){
+            Next_w++; count_data();
+            if (x2==","){
+                Next_w++; count_data();
+                if (x2=="&"){
+                    Next_w++; count_data();
+                    if (x1!="I"){
+                        error = 1;
+                        return;
+                    }
+                    if (aa == I_Type[x4 - 1]){
+                        Next_w++; count_data();
+                    }else
+                        error = 1;
+                }else if (x1=="S"){
+                    if (aa == S_Type[x4 - 1]){
+                        Next_w++; count_data();
+                    }else
+                        error = 1;
+                }else
+                    error = 1;
+            }else
+                error = 1;
+        }else
+            error = 1;
+    }else
         error = 1;
-        return;
-    }
 }
 
-void CG()          //Êä³ö¸ñÊ½   <CG> ¡ú <¡¯¡°¡¯><GF><¡¯¡±¡¯><¡¯,¡¯><¡°BS¡±>|<¡°ZC¡±>
-{
+void CG(){          //Êä³ö¸ñÊ½   <CG> ¡ú <¡¯¡°¡¯><GF><¡¯¡±¡¯><¡¯,¡¯><¡°BS¡±>|<¡°ZC¡±>
     int aa;
-    if (strcmp(x2, "\"") == 0)
-    {
+    if (x2=="\""){
         Next_w++; count_data();
         aa = GF();
-        if (error == 1)return;
-        if (strcmp(x2, "\"") == 0)
-        {
-            Next_w++; count_data();
-            if (strcmp(x2, ",") == 0)
-            {
-                Next_w++; count_data();
-                if (aa == I_Type[x4 - 1])
-                {
-                    Next_w++; count_data();
-                }
-                else
-                {
-                    error = 1;
-                    return;
-                }
-            }
-            else
-            {
-                error = 1;
-                return;
-            }
-        }
-        else
-        {
-            error = 1;
+        if (error)
             return;
-        }
-    }
-    else if (strcmp(x1, "ST") == 0)
-    {
+        if (x2=="\""){
+            Next_w++; count_data();
+            if (x2==","){
+                Next_w++; count_data();
+                if (aa == I_Type[x4 - 1]){
+                    Next_w++; count_data();
+                }else
+                    error = 1;
+            }else
+                error = 1;
+        }else
+            error = 1;
+    }else if (x1=="ST"){
         Next_w++; count_data();
-    }
-    else
-    {
+    }else
         error = 1;
-        return;
-    }
 }
 
-int GF()           //¸ñÊ½·ûºÅ   <GF> ¡ú %d|%f|%c|%s
-{
-    if (strcmp(x2, "%d") == 0)
-    {
+int GF(){           //¸ñÊ½·ûºÅ   <GF> ¡ú %d|%f|%c|%s
+    if (x2=="%d"){
         Next_w++; count_data();
         return 1;
-    }
-    else if (strcmp(x2, "%f") == 0)
-    {
+    }else if (x2=="%f"){
         Next_w++; count_data();
         return 2;
-    }
-    else if (strcmp(x2, "%c") == 0)
-    {
+    }else if (x2=="%c"){
         Next_w++; count_data();
         return 3;
-    }
-    else if (strcmp(x2, "%s") == 0)
-    {
+    }else if (x2=="%s"){
         Next_w++; count_data();
         return 4;
-    }
-    else error = 1;
+    }else 
+        error = 1;
     return 0;
 }
 
-void FZ()          //¸³Öµ±í´ïÊ½ <FZ> ¡ú <¡°BS¡±>(<FG>|<¡®(¡¯>[<DG>]<¡¯)¡¯>)|<¡±SZ¡±><¡¯[¡¯>(<¡±BS¡±>|<¡±SS¡±>)<¡¯]¡¯><FG>
-{
+void FZ(){          //¸³Öµ±í´ïÊ½ <FZ> ¡ú <¡°BS¡±>(<FG>|<¡®(¡¯>[<DG>]<¡¯)¡¯>)|<¡±SZ¡±><¡¯[¡¯>(<¡±BS¡±>|<¡±SS¡±>)<¡¯]¡¯><FG>
     int aa;
-    if (strcmp(x1, "I") == 0)
-    {
+    if (x1=="I"){
         s.push(x2);
         aa = I_Type[x4 - 1];
         Next_w++; count_data();
-        if (strcmp(x2, "(") == 0)
-        {
+        if (x2=="("){
             Next_w++; count_data();
-            if (strcmp(x1, "I") == 0 || strcmp(x1, "C1") == 0 || strcmp(x1, "C2") == 0 || strcmp(x1, "CT") == 0 || strcmp(x1, "ST") == 0)
-            {
+            if (x1=="I"||x1=="C1"||x1=="C2"||x1=="CT"||x1=="ST"){
                 DG();
-                if (error == 1)return;
+                if (error)
+                    return;
             }
-            if (strcmp(x2, ")") == 0)
-            {
+            if (x2==")"){
                 Next_w++; count_data();
-            }
-            else
-            {
+            }else
                 error = 1;
-                return;
-            }
-        }
-        else
-        {
+        }else
             FG(aa);
-            if (error == 1)return;
-        }
-    }
-    else if (strcmp(x1, "S") == 0)
-    {
+    }else if (x1=="S"){
         aa = S_Type[x4 - 1];
         Next_w++; count_data();
-        if (strcmp(x2, "[") == 0)
-        {
+        if (x2=="["){
             Next_w++; count_data();
-            if (strcmp(x1, "I") == 0)
-            {
+            if (x1=="I"){
                 Next_w++; count_data();
-            }
-            else if (strcmp(x1, "C1") == 0)    //C1<Êý×éµÄ×î´ó³¤¶È(»¹Î´ÅÐ¶Ï)
-            {
+            }else if (x1=="C1"){    //C1<Êý×éµÄ×î´ó³¤¶È(»¹Î´ÅÐ¶Ï)
                 Next_w++; count_data();
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
-            if (strcmp(x2, "]") == 0)
-            {
+            if (x2=="]"){
                 Next_w++; count_data();
                 FG(aa);
-                if (error == 1)return;
-            }
-            else
-            {
+            }else
                 error = 1;
-                return;
-            }
-        }
-        else
-        {
+        }else
             error = 1;
-            return;
-        }
-    }
-    else
-    {
+    }else
         error = 1;
-        return;
-    }
 }
 
-void DG()          //µ÷ÓÃ¸ñÊ½  <DG> ¡ú (<¡±BS¡±>|<¡±SS¡±>|<¡±ZC¡±>){<¡¯,¡¯>(<¡±BS¡±>|<¡±SS¡±>|<¡±ZC¡±>)}  º¯ÊýÖÐÐÎÊ½²ÎÊý¶ÔÓ¦ÀàÐÍÏàÍ¬£¨Î´ÊµÏÖ£©
-{
-    if (strcmp(x1, "I") == 0)
-    {
+//TODO
+void DG(){         //µ÷ÓÃ¸ñÊ½  <DG> ¡ú (<¡±BS¡±>|<¡±SS¡±>|<¡±ZC¡±>){<¡¯,¡¯>(<¡±BS¡±>|<¡±SS¡±>|<¡±ZC¡±>)}  º¯ÊýÖÐÐÎÊ½²ÎÊý¶ÔÓ¦ÀàÐÍÏàÍ¬£¨Î´ÊµÏÖ£©
+    if (x1=="I"){
         Next_w++; count_data();
-    }
-    else if (strcmp(x1, "C1") == 0)
-    {
+        
+    }else if (x1=="C1"){
         Next_w++; count_data();
-    }
-    else if (strcmp(x1, "C2") == 0)
-    {
+        
+    }else if (x1=="C2"){
         Next_w++; count_data();
-    }
-    else if (strcmp(x1, "CT") == 0)
-    {
+        
+    }else if (x1=="CT"){
         Next_w++; count_data();
-    }
-    else if (strcmp(x1, "ST") == 0)
-    {
+        
+    }else if (x1=="ST"){
         Next_w++; count_data();
-    }
-    else
-    {
+        
+    }else{
         error = 1;
         return;
     }
-    while (strcmp(x2, ",") == 0)
-    {
+    while (x2==","){
         Next_w++; count_data();
-        if (strcmp(x1, "I") == 0)
-        {
+        if (x1=="I"){
             Next_w++; count_data();
-        }
-        else if (strcmp(x1, "C1") == 0)
-        {
+            
+        }else if (x1=="C1"){
             Next_w++; count_data();
-        }
-        else if (strcmp(x1, "C2") == 0)
-        {
+            
+        }else if (x1=="C2"){
             Next_w++; count_data();
-        }
-        else if (strcmp(x1, "CT") == 0)
-        {
+            
+        }else if (x1=="CT"){
             Next_w++; count_data();
-        }
-        else if (strcmp(x1, "ST") == 0)
-        {
+            
+        }else if (x1=="ST"){
             Next_w++; count_data();
-        }
-        else
-        {
+            
+        }else{
             error = 1;
             return;
         }
     }
 }
 
-void XY()          //Ñ¡ÔñÓï¾ä  <XY> ¡ú <if><¡®(¡¯><¡°BS¡±><PG><¡®)¡¯><XG>[<else><XG>]
-{
+void XY(){          //Ñ¡ÔñÓï¾ä  <XY> ¡ú <if><¡®(¡¯><¡°BS¡±><PG><¡®)¡¯><XG>[<else><XG>]
     int aa;
-    if (strcmp(x2, "if") == 0)
-    {
+    if (x2=="if"){
         Next_w++; count_data();
-        if (strcmp(x2, "(") == 0)
-        {
+        if (x2=="("){
             Next_w++; count_data();
-            if (strcmp(x1, "I") == 0)
-            {
+            if (x1=="I"){
                 s.push(x2);
                 aa = I_Type[x4 - 1];
                 Next_w++; count_data();
                 PG(aa);
-                if (error == 1)return;
-                if (strcmp(x2, ")") == 0)
-                {
-
+                if (error)
+                    return;
+                if (x2==")"){
                     Next_w++; count_data();
                     QUATIF();
                     XG();
-                    if (error == 1)return;
-                    if (strcmp(x2, "else") == 0)
-                    {
-
+                    if (error)
+                        return;
+                    if (x2=="else"){
                         Next_w++; count_data();
                         QUATELSE();
                         XG();
-                        if (error == 1)return;
+                        if (error)
+                            return;
                     }
-                }
-                else
-                {
+                }else{
                     error = 1;
                     return;
                 }
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
         QUATIFEND();
-    }
-    else
-    {
+    }else
         error = 1;
-        return;
-    }
 }
 
-void XG()          //Ñ¡ÔñÓï¾ä¸ñÊ½  <XG> ¡ú<'{'><YG>{<YG>}<'}'>|<YG>
-{
-    if (strcmp(x2, "{") == 0)
-    {
+void XG(){          //Ñ¡ÔñÓï¾ä¸ñÊ½  <XG> ¡ú<'{'><YG>{<YG>}<'}'>|<YG>
+    if (x2=="{"){
         Next_w++; count_data();
         YG();
-        if (error == 1)return;
-        while (strcmp(x2, "}") != 0)
-        {
+        if (error)
+            return;
+        while (x2!="}"){
             YG();
-            if (error == 1)return;
+            if (error)
+                return;
         }
         Next_w++; count_data();
-    }
-    else
-    {
+    }else
         YG();
-        if (error == 1)return;
-    }
 }
 
-void PG(int aa)    //ÅÐ¶Ï¸ñÊ½   <PG> ¡ú <PF>(<¡°BS¡±>|<¡°SS¡±>)
-{
+void PG(int aa){    //ÅÐ¶Ï¸ñÊ½   <PG> ¡ú <PF>(<¡°BS¡±>|<¡°SS¡±>)
     int aa1;
-    if (strcmp(x2, ">") == 0 || strcmp(x2, ">=") == 0 || strcmp(x2, "<") == 0 || strcmp(x2, "<=") == 0 || strcmp(x2, "==") == 0)
-    {
+    if (x2==">"||x2==">="||x2=="<"||x2=="<="||x2=="=="){
         bo = x2;
         PF();
-        if (error == 1)return;
-        if (strcmp(x1, "I") == 0)
-        {
+        if (error)
+            return;
+        if (x1=="I"){
             s.push(x2);
             aa1 = I_Type[x4 - 1];
-
             Next_w++; count_data();
-            if (aa1 != aa)
-            {
+            if (aa1-aa){
                 error = 1;
                 return;
             }
-        }
-        else if (strcmp(x1, "C1") == 0 && aa == 1)
-        {
+        }else if (x1=="C1" && aa == 1){
             s.push(x2);
             Next_w++; count_data();
-        }
-        else if (strcmp(x1, "C2") == 0 && aa == 2)
-        {
+        }else if (x1=="C2" && aa == 2){
             s.push(x2);
             Next_w++; count_data();
-        }
-        else
-        {
+        }else{
             error = 1;
             return;
         }
         QUATBOOL();
         jilu++;
-    }
-    else
-    {
+    }else
         error = 1;
-        return;
-    }
 }
 
-void PF()          //ÅÐ¶Ï·ûºÅ    <PF> ¡ú >|>=|<|<=|==
-{
-    if (strcmp(x2, ">") == 0)
-    {
+void PF(){          //ÅÐ¶Ï·ûºÅ    <PF> ¡ú >|>=|<|<=|==
+    if (x2==">"||x2==">="||x2=="<"||x2=="<="||x2=="=="){
         Next_w++; count_data();
-    }
-    else if (strcmp(x2, ">=") == 0)
-    {
-        Next_w++; count_data();
-    }
-    else if (strcmp(x2, "<") == 0)
-    {
-        Next_w++; count_data();
-    }
-    else if (strcmp(x2, "<=") == 0)
-    {
-        Next_w++; count_data();
-    }
-    else if (strcmp(x2, "==") == 0)
-    {
-        Next_w++; count_data();
-    }
-    else
-    {
+    }else
         error = 1;
-        return;
-    }
 }
 
-void XH()      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><¡®(¡¯>[<¡°BS¡±><FG>]<¡®;¡®>[<¡°BS¡±><PG>]<¡®;¡¯>[<BD>]<¡®)¡¯><XG>
-{
+void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><¡®(¡¯>[<¡°BS¡±><FG>]<¡®;¡®>[<¡°BS¡±><PG>]<¡®;¡¯>[<BD>]<¡®)¡¯><XG>
     int aa;
-    if (strcmp(x2, "while") == 0)
-    {
+    if (x2=="while"){
         QUATWHILE();
         Next_w++; count_data();
-        if (strcmp(x2, "(") == 0)
-        {
+        if (x2=="("){
             Next_w++; count_data();
-            if (strcmp(x1, "I") == 0)
-            {
+            if (x1=="I"){
                 s.push(x2);
                 aa = I_Type[x4 - 1];
                 Next_w++; count_data();
                 PG(aa);
-                if (error == 1)return;
-                if (strcmp(x2, ")") == 0)
-                {
+                if (error)
+                    return;
+                if (x2==")"){
                     Next_w++; count_data();
                     QUATDO();
                     XG();
                     QUATWHILEEND();
-                    if (error == 1)return;
-                }
-                else
-                {
+                }else
                     error = 1;
-                    return;
-                }
-            }
-            else
-            {
+            }else
                 error = 1;
-                return;
-            }
-        }
-        else
-        {
+        }else
             error = 1;
-            return;
-        }
-    }
-    else if (strcmp(x2, "for") == 0)
-    {
+    }else if (x2=="for"){
         Next_w++; count_data();
-        if (strcmp(x2, "(") == 0)
-        {
+        if (x2=="("){
             Next_w++; count_data();
-            if (strcmp(x1, "I") == 0)
-            {
+            if (x1=="I"){
                 s.push(x2);
                 aa = I_Type[x4 - 1];
                 Next_w++; count_data();
                 FG(aa);
-                if (error == 1)return;
+                if (error)
+                    return;
             }
-            if (strcmp(x2, ";") == 0)
-            {
+            if (x2==";"){
                 Next_w++; count_data();
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
             QUATFOR();
-            if (strcmp(x1, "I") == 0)
-            {
+            if (x1=="I"){
                 s.push(x2);
                 aa = I_Type[x4 - 1];
                 Next_w++; count_data();
                 PG(aa);
-                if (error == 1)return;
+                if (error)
+                    return;
             }
-            if (strcmp(x2, ";") == 0)
-            {
+            if (x2==";"){
                 Next_w++; count_data();
-            }
-            else
-            {
+            }else{
                 error = 1;
                 return;
             }
-            if (strcmp(x1, "I") == 0 || strcmp(x2, "++") == 0 || strcmp(x2, "--") == 0)
-            {
+            if (x1=="I"||x2=="++"||x2=="--"){
                 BD();
-                if (error == 1)return;
+                if (error)
+                    return;
             }
-            if (strcmp(x2, ")") == 0)
-            {
+            if (x2==")"){
                 Next_w++; count_data();
                 QUATDOFOR();
                 XG();
-                if (y2 == 1)
-                {
+                if (y2 == 1){
                     s.push(yy);
                     s.push(yy);
                     s.push("1");
@@ -1252,8 +821,7 @@ void XH()      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><¡
                     QUATFUZHI();
                     y2 = 0;
                 }
-                if (y2 == 2)
-                {
+                if (y2 == 2){
                     s.push(yy);
                     s.push(yy);
                     s.push("1");
@@ -1263,85 +831,44 @@ void XH()      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><¡
                     y2 = 0;
                 }
                 QUATFOREND();
-                if (error == 1)return;
-            }
-            else
-            {
+            }else
                 error = 1;
-                return;
-            }
-        }
-        else
-        {
+        }else
             error = 1;
-            return;
-        }
-    }
-    else
-    {
+    }else
         error = 1;
-        return;
-    }
 }
 
-void BD()      //±ä»¯±í´ïÊ½ <BD> ¡ú <¡°BS¡±>(<¡±++¡±>|<¡±--¡±>)|(<¡±--¡±>|<¡±++¡±>)<¡°BS¡±>
-{
-    if (strcmp(x1, "I") == 0 && I_Type[x4 - 1] == 1)
-    {
-        strcpy(yy, x2);
+void BD(){      //±ä»¯±í´ïÊ½ <BD> ¡ú <¡°BS¡±>(<¡±++¡±>|<¡±--¡±>)|(<¡±--¡±>|<¡±++¡±>)<¡°BS¡±>
+    if (x1=="I" && I_Type[x4 - 1] == 1){
+        yy=x2;
         Next_w++; count_data();
-        if (strcmp(x2, "++") == 0)
-        {
+        if (x2=="++"){
             y2 = 1;
             Next_w++; count_data();
-        }
-        else if (strcmp(x2, "--") == 0)
-        {
+        }else if (x2=="--"){
             y2 = 2;
             Next_w++; count_data();
-        }
-        else
-        {
+        }else
             error = 1;
-            return;
-        }
-    }
-    else if (strcmp(x2, "++") == 0)
-    {
+    }else if (x2=="++"){
         y2 = 1;
         Next_w++; count_data();
-        if (strcmp(x1, "I") == 0 && I_Type[x4 - 1] == 1)
-        {
-            strcpy(yy, x2);
+        if (x1=="I" && I_Type[x4 - 1] == 1){
+            yy=x2;
             Next_w++; count_data();
-        }
-        else
-        {
+        }else
             error = 1;
-            return;
-        }
-    }
-    else if (strcmp(x2, "--") == 0)
-    {
+    }else if (x2=="--"){
         y2 = 2;
         Next_w++; count_data();
-        if (strcmp(x1, "I") == 0 && I_Type[x4 - 1] == 1)
-        {
-            strcpy(yy, x2);
+        if (x1=="I" && I_Type[x4 - 1] == 1){
+            yy=x2;
             Next_w++; count_data();
-        }
-        else
-        {
+        }else
             error = 1;
-            return;
-        }
-    }
-    else
-    {
+    }else
         error = 1;
-        return;
-    }
-
 }
 
 /*  *****************     Óï·¨·ÖÎö½áÊø      *****************  */

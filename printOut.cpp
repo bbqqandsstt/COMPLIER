@@ -3,38 +3,30 @@
 void print_all_form(){ // 输出各种表
     int i;
     cout << "标识符表：";
-    for (i = 0; i < II; i++)
-        cout << I[i] << "  ";
-    cout << endl;
-    cout << "标识符表类型(int-1,float-2,char-3,string-4,void-5)：";
+    for (auto i:Ik)
+        cout <<i+"  ";
+    cout << "\n标识符表类型(int-1,float-2,char-3,string-4,void-5)：";
     for (i = 0; i < II_Type; i++)
         cout << I_Type[i] << "  ";
-    cout << endl;
-    cout << "变量还是形参：";
+    cout <<"\n变量还是形参：";
     for (i = 0; i < II_Type; i++)
         cout << I_Type2[i] << "  ";
-    cout << endl;
-    cout << "整数表：";
+    cout << "\n整数表：";
     for (i = 0; i < CC1; i++)
         cout << C1[i] << "  ";
-    cout << endl;
-    cout << "实数表：";
+    cout << "\n实数表：";
     for (i = 0; i < CC2; i++)
         cout << C2[i] << "  ";
-    cout << endl;
-    cout << "字符表：";
-    for (i = 0; i < CTT; i++)
-        cout << CT[i] << "  ";
-    cout << endl;
-    cout << "字符串表：";
-    for (i = 0; i < STT; i++)
-        cout << ST[i] << "  ";
-    cout << endl;
-    cout << "数组表：";
+    cout << "\n字符表：";
+    for (auto i:CTk)
+        cout << i+ "  ";
+    cout << "\n字符串表：";
+    for (auto i:STk)
+        cout << i+ "  ";
+    cout << "\n数组表：";
     for (i = 0; i < SS; i++)
         cout << S[i][0] << "  ";
-    cout << endl;
-    cout << "数组长度表：";
+    cout << "\n数组长度表：";
     for (i = 0; i < SS; i++)
         cout << S[i][1] << "  ";
     cout << endl;

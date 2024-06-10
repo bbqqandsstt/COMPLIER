@@ -3,11 +3,14 @@
 #include "printOut.h"
 
 vector<string> Kk={
-    "void","int","float","char"," string","while","const","for","return","if",
+    "void","int","float","char","string","while","const","for","return","if",
     "else","scanf","printf","include","struct" 
 }; 
 map<string,int> K;        //关键字表
-vector<string> Pk = {"-","/","(",")","=","==",">",">=","<","<=","+","+=","*",",",";","++","--","{","}","\"","'","#","&","[","]","%","%d","%f","%c","%s"};
+vector<string> Pk = {
+    "-","/","(",")","=","==",">",">=","<","<=","+","+=","*",",",";","++","--","{",
+    "}","\"","'","#","&","[","]","%","%d","%f","%c","%s"
+};
 map<string,int> P;     //界符表
 vector<string> Hk = {"stdio.h","stdlib.h","string.h","math.h"};
 map<string,int> H;                 //头文件表
@@ -15,27 +18,24 @@ vector<string> Ik;
 map<string,int> I;                //标识符表
 int I_Type[20];             //标识符所对应的类型****************************************************
 int I_Type2[20];            //标识符是变量(=1)还是形参(=2)****************************************************
-int II = 0;                      //标识符表的现长度
 int II_Type = 0;                 //标识符对应类型的现长度
-char C1[20][10];                 //常整数表
-int CC1 = 0;                     //常整数表的现长度
+vector<string> C1k;
+map<string,int> C1;                 //常整数表
 char C2[20][10];                 //常实数表
 int CC2 = 0;                     //常实数表的现长度
-char CT[20][10];               //字符常量
-int CTT = 0;                     //字符常量表的长度
-char ST[20][10];               //字符串常量
-int STT = 0;                     //字符串常量表的长度
+vector<string> CTk;
+map<string,int> CT;               //字符常量
+vector<string> STk;
+map<string,int> ST;               //字符串常量
 vector<Array> Sk;
-string S[20][2];             //数组表
+map<Array,int> S;             //数组表
 int S_Type[20];             //数组中标识符所对应的类型****************************************************
-int SS = 0;                      //数组表的长度
 int SS_Type = 0;                 //数组中标识符的类别对应的长度
 string Input;            ///输入的字符串
-int len;                       //输入的字符串长度
-int error = 0;                   //判断语法是否错误  0为无错误     1为有错误
-int token[200][2];          //Token序列表****************************************************
+int error = 0;                   //判断语法是否错误  0为无错误    
+vector<pair<int,int>> token;          //Token序列表****************************************************
 int token_len = 0;               //Token序列表的长度（行数）
-char formType[10][3] = { " ","K","P","I","C1","C2","CT","ST","H","S" };     //K=1，P=2，I=3......
+string formType[10]= { " ","K","P","I","C1","C2","CT","ST","H","S" };     //K=1，P=2，I=3......
 
 void init(){
     for(int i=0;i<Kk.size();i++)
@@ -47,7 +47,6 @@ void init(){
 }
 int main(){
     init();
-    int i;
     cout << "请输入代码：\n";
     char c;
     int count_c = 0;
@@ -56,7 +55,6 @@ int main(){
             Input.push_back(c);
     for (auto i:Input)
         cout <<i;
-    len = i;
     wordAnalyse();          //词法分析开始
     if (!error){
         CX();           //开始语法分析
@@ -69,29 +67,40 @@ int main(){
             outputsiyuanshi();      //输出四元式序列
         }else{
             cout << "语法错误\n错误位置：" << x2 <<"\n";
-            for (i = 0; i < Next_w; i++){
-                if (token[i][0] == 1){
-                    if(!Kk[token[i][1] - 1].compare("include"))
-                        cout <<"#"<< Kk[token[i][1] - 1];
-                    else
-                        cout << Kk[token[i][1] - 1] << " ";
+            for (int i = 0,t; i < Next_w; i++){
+                t=token[i].second-1;
+                switch(token[i].first){
+                    case 1:
+                        if(!Kk[t].compare("include"))
+                            cout <<"#"+Kk[t];
+                        else
+                            cout << Kk[t]+" ";
+                        break;
+                    case 2:
+                        cout << Pk[t]+" ";
+                        break;
+                    case 3:
+                        cout << Ik[t]+" ";
+                        break;
+                    case 4:
+                        cout << C1k[t]+" ";
+                        break;
+                    case 5:
+                        cout << C2[t] << " ";
+                        break;
+                    case 6:
+                        cout << CTk[t]+" ";
+                        break;
+                    case 7:
+                        cout << STk[t]+" ";
+                        break;
+                    case 8:
+                        cout <<"<"+Hk[t]+"> ";
+                        break;
+                    case 9:
+                        cout << Sk[t]<< " ";
+                        break;
                 }
-                else if (token[i][0] == 2)
-                    cout << Pk[token[i][1] - 1] << " ";
-                else if (token[i][0] == 3)
-                    cout << Ik[token[i][1] - 1] << " ";
-                else if (token[i][0] == 4)
-                    cout << C1[token[i][1] - 1] << " ";
-                else if (token[i][0] == 5)
-                    cout << C2[token[i][1] - 1] << " ";
-                else if (token[i][0] == 6)
-                    cout << CT[token[i][1] - 1] << " ";
-                else if (token[i][0] == 7)
-                    cout << ST[token[i][1] - 1] << " ";
-                else if (token[i][0] == 8)
-                    cout <<"<"<<Hk[token[i][1] - 1]<<">"<< " ";
-                else if (token[i][0] == 9)
-                    cout << S[token[i][1] - 1][0] << "[" << S[token[i][1] - 1][1] << "]" << " ";
             }
         }
     }else

@@ -1,11 +1,11 @@
 #include "wordAnalysis.h"
 
-
 /*  *****************     词法分析开始      *****************  */
 void wordAnalyse(){                  //词法分析函数
     string a;               
     int j, k, m,t = 0;                 
-    for (int i = 0; i < len;){
+    for (int i = 0; i <Input.length();){
+        a.clear();
         if (Input[i] == ' ')
             i++;
         else if (Input[i] == '#'){
@@ -13,30 +13,26 @@ void wordAnalyse(){                  //词法分析函数
             for(;isalpha(Input[i]);i++)
                 a.push_back(Input[i]);
             m = K[a];
-            if (m){
-                token[token_len][0] = 1;
-                token[token_len++][1] = m;
-            }else{
+            if (m)
+                token.push_back({1,m});
+            else{
                 error = 1;
                 return;
             }
-            for(;Input[i]!='<';i++);
+            i=Input.find("<")+1;
             a.clear();
-            i++;
             for(;Input[i] != '>';i++)
                 a.push_back(Input[i]); 
             i++;
             m = H[a];
-            if (m){
-                token[token_len][0] = 8;
-                token[token_len][1] = m;
-                token_len++;
-            }else{
+            if (m)
+                token.push_back({8,m});
+            else{
                 error = 1;
                 return;
             }
         }else if(isalpha(Input[i]) || Input[i] == '_'){   //如果首字符是字母或下划线
-            a = string(1,Input[i++]);
+            a.push_back(Input[i++]);
             for(;isalnum(Input[i]) || Input[i] == '_';i++)
                 a+=Input[i];  
             if (Input[i] == '['){
@@ -49,45 +45,62 @@ void wordAnalyse(){                  //词法分析函数
                     error=1;
                     return ;
                 }
-                m = is_S(a);
-                token[token_len][0] = 9;
-                token[token_len++][1] = m;
+                m=is_S(a);
+                if(m+1)
+                    token.push_back({9,m});
+                else{
+                    error = 1;
+                    return;
+                }
             }else{
                 m = K[a];
-                if (m){
-                    token[token_len][0] = 1;
-                    token[token_len++][1] = m;
-                }else{
-                    m = is_I(a);
-                    token[token_len][0] = 3;
-                    token[token_len++][1] = m;
-                }
+                if (m)
+                    token.push_back({1,m});
+                else
+                    token.push_back({3,is_I(a)});
             }
         }else if (isdigit(Input[i])){        //如果首字符是数字
-            int q = 0;
-            a = string(1,Input[i++]);
-            for(;(a[0] != '0' || (a[0] == '0' && Input[i] == '.') || (a[0] == '0' && a[1] == '.')) && 
-                (isdigit(Input[i]) ||Input[i] == '.' || Input[i] == 'e' || (Input[i - 1] == 'e'&&(Input[i] == '-' ||Input[i] == '+')));i++)
-            {
-                if (Input[i] == '.') 
-                    q = 1;
-                if (Input[i] == 'e' && Input[i + 1] == '-') 
-                    q = -1;
-                a+= Input[i];
+            int fl=0,x=1;
+            a.push_back(Input[i++]);
+            for(;isdigit(Input[i]);i++)
+                a+=Input[i];
+            if(Input[i]=='.'){
+                a+=Input[i++];
+                for(;isdigit(Input[i]);i++)
+                    a+=Input[i],x=0;
+                if(Input[i]=='e'){
+                    if(x){
+                        error=1;
+                        return ;
+                    }
+                    a+=Input[i++];x=1;
+                    if(Input[i]=='-'||Input[i]=='+')
+                        a+=Input[i++];
+                    for(;isdigit(Input[i]);i++)
+                        a+=Input[i],x=0;
+                    if(x){
+                        error=1;
+                        return ;
+                    }
+                    fl++;
+                }else if(Input[i]=='e'){
+                    a+=Input[i++];
+                    if(Input[i]=='-'||Input[i]=='+')
+                        a+=Input[i++];
+                    for(;isdigit(Input[i]);i++)
+                        a+=Input[i],x=0;
+                    if(x){
+                        error=1;
+                        return ;
+                    }
+                    fl++;
+                }
             }
-            if (isalpha(Input[i])){
-                error = 1;
-                return;
-            }
-            if (!q){
-                m = is_C1(a);
-                token[token_len][0] = 4;
-                token[token_len++][1] = m;
-            }else{
-                m = is_C2(a, q);
-                token[token_len][0] = 5;
-                token[token_len++][1] = m;
-            }
+            i--;
+            if (fl)
+                token.push_back({5,is_C2(a)});
+            else
+                token.push_back({4,is_C1(a)});
         }else if (!t&& (Input[i] == '\'' || (Input[i] == '"' && Input[i - 1] != '(' && Input[i + 1] != ')') || (Input[i] == '"' && Input[i - 1] == '(' && Input[i + 1] != '%'))){
             a = string(1,Input[i++]);
             for(;a[0] == '"' && Input[i] != '"';i++)
@@ -102,26 +115,19 @@ void wordAnalyse(){                  //词法分析函数
                 }else
                     a+=Input[i++];
             }
-            if (a[0] == '\''){
-                m = is_CT(a);
-                token[token_len][0] = 6;
-                token[token_len++][1] = m;
-            }else if (a[0] == '"'){
-                m = is_ST(a);
-                token[token_len][0] = 7;
-                token[token_len++][1] = m;
-            }
-        }
-        else{       //如果首字符是界符
+            if (a[0] == '\'')
+                token.push_back({6,is_CT(a)});
+            else if (a[0] == '"')
+                token.push_back({7,is_ST(a)});
+        }else{       //如果首字符是界符
             a = string(1,Input[i++]);
             if(P.count(a+Input[i]))
                 m = P[a+Input[i++]];
             else
                 m=P[a];
-            if(m){
-                token[token_len][0] = 2;
-                token[token_len++][1] = m;
-            }else{                           //如果以上都不是
+            if(m)
+                token.push_back({2,m});
+            else{                           //如果以上都不是
                 error = 1;
                 return;
             }
