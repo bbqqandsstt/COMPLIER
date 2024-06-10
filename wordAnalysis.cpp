@@ -6,9 +6,8 @@ void wordAnalyse(){                  //词法分析函数
     int j, k, m,t = 0;                 
     for (int i = 0; i <Input.length();){
         a.clear();
-        if (Input[i] == ' ')
-            i++;
-        else if (Input[i] == '#'){
+        for(;Input[i] == ' ';i++);
+        if (Input[i] == '#'){
             i++;
             for(;isalpha(Input[i]);i++)
                 a.push_back(Input[i]);
@@ -96,7 +95,6 @@ void wordAnalyse(){                  //词法分析函数
                     fl++;
                 }
             }
-            i--;
             if (fl)
                 token.push_back({5,is_C2(a)});
             else
@@ -120,7 +118,7 @@ void wordAnalyse(){                  //词法分析函数
             else if (a[0] == '"')
                 token.push_back({7,is_ST(a)});
         }else{       //如果首字符是界符
-            a = string(1,Input[i++]);
+            a.push_back(Input[i++]);
             if(P.count(a+Input[i]))
                 m = P[a+Input[i++]];
             else

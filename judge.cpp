@@ -108,7 +108,7 @@ int is_ST(string a){            //是否为ST(字符串常量)中的值,如果不是，则存入
 
 int is_S(string a){            //是否为S(数组表)中的值,如果不是，则存入
     size_t p=a.find("["),q=a.find("]");
-    string t=a.substr(0,p),ind=a.substr(p+1,q-p);
+    string t=a.substr(0,p),ind=a.substr(p+1,q-p-1);
     try{
         p=stoi(ind,&q);
         if(ind.find_first_not_of(" ",q)!=string::npos)

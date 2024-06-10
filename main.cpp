@@ -16,13 +16,12 @@ vector<string> Hk = {"stdio.h","stdlib.h","string.h","math.h"};
 map<string,int> H;                 //头文件表
 vector<string> Ik;
 map<string,int> I;                //标识符表
-int I_Type[20];             //标识符所对应的类型****************************************************
-int I_Type2[20];            //标识符是变量(=1)还是形参(=2)****************************************************
+vector<pair<int,int>> I_Type;             //标识符所对应的类型,标识符是变量(=1)还是形参(=2)****************************************************
 int II_Type = 0;                 //标识符对应类型的现长度
 vector<string> C1k;
 map<string,int> C1;                 //常整数表
-char C2[20][10];                 //常实数表
-int CC2 = 0;                     //常实数表的现长度
+vector<string> C2k;
+map<string,int> C2;                 //常实数表
 vector<string> CTk;
 map<string,int> CT;               //字符常量
 vector<string> STk;
@@ -55,11 +54,12 @@ int main(){
             Input.push_back(c);
     for (auto i:Input)
         cout <<i;
+    cout<<"\n";
     wordAnalyse();          //词法分析开始
     if (!error){
         CX();           //开始语法分析
         if (!error){
-            cout <<"\n****************************各种表***************************\n";
+            cout <<"****************************各种表***************************\n";
             print_all_form();       //输出各种表
             cout <<"\n\n****************************符号表***************************\n";
             make_table();           //开始进行符号表操作
@@ -86,7 +86,7 @@ int main(){
                         cout << C1k[t]+" ";
                         break;
                     case 5:
-                        cout << C2[t] << " ";
+                        cout << C2k[t] << " ";
                         break;
                     case 6:
                         cout << CTk[t]+" ";
@@ -102,8 +102,9 @@ int main(){
                         break;
                 }
             }
+            cout<<"\n";
         }
     }else
-        cout << "词法错误";
+        cout << "词法错误\n";
     system("pause");
 }

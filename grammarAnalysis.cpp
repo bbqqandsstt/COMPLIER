@@ -5,6 +5,8 @@ string x1, x2,yy;
 
 /*  *****************     Óï·¨·ÖÎö¿ªÊ¼      *****************  */
 void count_data(){                       //¸¨Öúº¯Êý   x1Îª±íµÄÃû×Ö£¬x2Îª¾ßÌåÖµ,x3ÎªtokenµÄµÚÒ»¸öÊý×Ö£¬x4ÎªtokenµÄµÚ¶þ¸öÊý×Ö
+    if(Next_w>=token.size())
+        return ;
     tie(x3,x4)=token[Next_w];
     int mm=x4-1, i, j;
     x1 = formType[x3];
@@ -52,7 +54,7 @@ void CX(){          //³ÌÐò¿ªÊ¼   <CX> ¡ú {<WB>}<HD>{<HD>}
         if (error) 
             return;
     }
-    if (Next_w < token_len) 
+    if (Next_w < token.size()) 
         error = 1;
 }
 
@@ -61,14 +63,12 @@ void WB(){          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<¡°BS¡±>[{<¡®,¡®><¡°BS¡±>}|<FG>]<¡
     if (!aa)
         return;
     if (x1=="I"){
-        for (int q = 0; q < II_Type; q++)
+        for (int q = 0; q <I_Type.size(); q++)
             if (Ik[q]==x2){
                 error = 1;
                 return;
             }
-        I_Type[II_Type] = aa;
-        I_Type2[II_Type] = 1;
-        II_Type++;
+        I_Type.push_back({aa,1});
         Next_w++; count_data();
         if (x2=="="){
             Next_w--; count_data();
@@ -84,9 +84,7 @@ void WB(){          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<¡°BS¡±>[{<¡®,¡®><¡°BS¡±>}|<FG>]<¡
                 error = 1;
                 return;
             }
-            I_Type[II_Type] = aa;
-            I_Type2[II_Type] = 1;
-            II_Type++;
+            I_Type.push_back({aa,1});
             Next_w++; count_data();
             if (x2=="="){
                 Next_w--; count_data();
@@ -235,7 +233,7 @@ void SU(int aa){    //Ëã·û±í´ïÊ½ <SU> ¡ú [(*|/)<SV><SU>]
 }
 
 void SV(int aa){    //Ëã·û±í´ïÊ½ <SV> ¡ú <¡±BS¡±> push(i)|<¡±SS¡±> push(i)|<¡¯(¡¯><SB><¡¯)¡¯>
-    if (x1=="I" && aa == I_Type[x4 - 1]){
+    if (x1=="I" && aa == I_Type[x4 - 1].first){
         s.push(x2);
         Next_w++; count_data();
     }else if (x1=="C1" && aa == 1){
@@ -376,9 +374,7 @@ void HD(){          //º¯Êý¶¨Òå   <HD> ¡ú <void><ZF><'{'><YG>{<YG>}<'}'>
 
 void ZF(){          //Ö±½ÓËµÃ÷·û <ZF> ¡ú <¡°BS¡±><¡®(¡¯>[<CL>]<¡®)¡¯>
     if (x1=="I"){
-        I_Type[II_Type] = 5;
-        I_Type2[II_Type] = 0;
-        II_Type++;
+        I_Type.push_back({5,0});
         Next_w++; count_data();
         if (x2=="("){
             Next_w++; count_data();
@@ -406,9 +402,7 @@ void ZF(){          //Ö±½ÓËµÃ÷·û <ZF> ¡ú <¡°BS¡±><¡®(¡¯>[<CL>]<¡®)¡¯>
 void CL(){          //²ÎÊýÁÐ±í   <CL> ¡ú <BL><¡°BS¡±>{<¡¯,¡¯><BL><¡°BS¡±>}
     int aa= BL();
     if (x1=="I"){
-        I_Type[II_Type] = aa;
-        I_Type2[II_Type] = 2;
-        II_Type++;
+        I_Type.push_back({aa,2});
         Next_w++; count_data();
         while (x2==","){
             Next_w++; count_data();
@@ -416,9 +410,7 @@ void CL(){          //²ÎÊýÁÐ±í   <CL> ¡ú <BL><¡°BS¡±>{<¡¯,¡¯><BL><¡°BS¡±>}
             if (error)
                 return;
             if (x1=="I"){
-                I_Type[II_Type] = aa;
-                I_Type2[II_Type] = 2;
-                II_Type++;
+                I_Type.push_back({aa,2});
                 Next_w++; count_data();
             }else{
                 error = 1;
@@ -498,7 +490,7 @@ void RG(){          //ÊäÈë¸ñÊ½   <RG> ¡ú <¡¯¡°¡®><GF><¡¯¡±¡¯><¡¯,¡¯>(<¡¯&¡¯><¡°B
                         error = 1;
                         return;
                     }
-                    if (aa == I_Type[x4 - 1]){
+                    if (aa == I_Type[x4 - 1].first){
                         Next_w++; count_data();
                     }else
                         error = 1;
@@ -528,7 +520,7 @@ void CG(){          //Êä³ö¸ñÊ½   <CG> ¡ú <¡¯¡°¡¯><GF><¡¯¡±¡¯><¡¯,¡¯><¡°BS¡±>|<¡°
             Next_w++; count_data();
             if (x2==","){
                 Next_w++; count_data();
-                if (aa == I_Type[x4 - 1]){
+                if (aa == I_Type[x4 - 1].first){
                     Next_w++; count_data();
                 }else
                     error = 1;
@@ -564,7 +556,7 @@ void FZ(){          //¸³Öµ±í´ïÊ½ <FZ> ¡ú <¡°BS¡±>(<FG>|<¡®(¡¯>[<DG>]<¡¯)¡¯>)|<¡±
     int aa;
     if (x1=="I"){
         s.push(x2);
-        aa = I_Type[x4 - 1];
+        aa = I_Type[x4 - 1].first;
         Next_w++; count_data();
         if (x2=="("){
             Next_w++; count_data();
@@ -656,7 +648,7 @@ void XY(){          //Ñ¡ÔñÓï¾ä  <XY> ¡ú <if><¡®(¡¯><¡°BS¡±><PG><¡®)¡¯><XG>[<else
             Next_w++; count_data();
             if (x1=="I"){
                 s.push(x2);
-                aa = I_Type[x4 - 1];
+                aa = I_Type[x4 - 1].first;
                 Next_w++; count_data();
                 PG(aa);
                 if (error)
@@ -716,7 +708,7 @@ void PG(int aa){    //ÅÐ¶Ï¸ñÊ½   <PG> ¡ú <PF>(<¡°BS¡±>|<¡°SS¡±>)
             return;
         if (x1=="I"){
             s.push(x2);
-            aa1 = I_Type[x4 - 1];
+            aa1 = I_Type[x4 - 1].first;
             Next_w++; count_data();
             if (aa1-aa){
                 error = 1;
@@ -754,7 +746,7 @@ void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><
             Next_w++; count_data();
             if (x1=="I"){
                 s.push(x2);
-                aa = I_Type[x4 - 1];
+                aa = I_Type[x4 - 1].first;
                 Next_w++; count_data();
                 PG(aa);
                 if (error)
@@ -776,7 +768,7 @@ void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><
             Next_w++; count_data();
             if (x1=="I"){
                 s.push(x2);
-                aa = I_Type[x4 - 1];
+                aa = I_Type[x4 - 1].first;
                 Next_w++; count_data();
                 FG(aa);
                 if (error)
@@ -791,7 +783,7 @@ void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><
             QUATFOR();
             if (x1=="I"){
                 s.push(x2);
-                aa = I_Type[x4 - 1];
+                aa = I_Type[x4 - 1].first;
                 Next_w++; count_data();
                 PG(aa);
                 if (error)
@@ -840,7 +832,7 @@ void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><
 }
 
 void BD(){      //±ä»¯±í´ïÊ½ <BD> ¡ú <¡°BS¡±>(<¡±++¡±>|<¡±--¡±>)|(<¡±--¡±>|<¡±++¡±>)<¡°BS¡±>
-    if (x1=="I" && I_Type[x4 - 1] == 1){
+    if (x1=="I" && I_Type[x4 - 1].first == 1){
         yy=x2;
         Next_w++; count_data();
         if (x2=="++"){
@@ -854,7 +846,7 @@ void BD(){      //±ä»¯±í´ïÊ½ <BD> ¡ú <¡°BS¡±>(<¡±++¡±>|<¡±--¡±>)|(<¡±--¡±>|<¡±++
     }else if (x2=="++"){
         y2 = 1;
         Next_w++; count_data();
-        if (x1=="I" && I_Type[x4 - 1] == 1){
+        if (x1=="I" && I_Type[x4 - 1].first == 1){
             yy=x2;
             Next_w++; count_data();
         }else
@@ -862,7 +854,7 @@ void BD(){      //±ä»¯±í´ïÊ½ <BD> ¡ú <¡°BS¡±>(<¡±++¡±>|<¡±--¡±>)|(<¡±--¡±>|<¡±++
     }else if (x2=="--"){
         y2 = 2;
         Next_w++; count_data();
-        if (x1=="I" && I_Type[x4 - 1] == 1){
+        if (x1=="I" && I_Type[x4 - 1].first == 1){
             yy=x2;
             Next_w++; count_data();
         }else
