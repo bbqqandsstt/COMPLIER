@@ -164,10 +164,8 @@ void FG(int aa){    //赋值格式   <FG> → <’=’>(<”ZC”>|<SB>)
                 return;
         }
         QUATFUZHI();
-    }else{
+    }else
         error = 1;
-        return;
-    }
 }
 
 void SB(int aa){    //算符表达式 <SB> → <SD><SE>

@@ -81,19 +81,19 @@ void wordAnalyse(){                  //´Ê·¨·ÖÎöº¯Êý
                         error=1;
                         return ;
                     }
-                    fl++;
-                }else if(Input[i]=='e'){
-                    a+=Input[i++];
-                    if(Input[i]=='-'||Input[i]=='+')
-                        a+=Input[i++];
-                    for(;isdigit(Input[i]);i++)
-                        a+=Input[i],x=0;
-                    if(x){
-                        error=1;
-                        return ;
-                    }
-                    fl++;
                 }
+                fl++;
+            }else if(Input[i]=='e'){
+                a+=Input[i++];
+                if(Input[i]=='-'||Input[i]=='+')
+                    a+=Input[i++];
+                for(;isdigit(Input[i]);i++)
+                    a+=Input[i],x=0;
+                if(x){
+                    error=1;
+                    return ;
+                }
+                fl++;
             }
             if (fl)
                 token.push_back({5,is_C2(a)});

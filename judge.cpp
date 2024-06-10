@@ -10,7 +10,6 @@ int is_I(string a){             //是否为I(标识符)中的值,如果不是，则存入
 }
 
 int is_C1(string a){            //是否为C1(常整数)中的值,如果不是，则存入
-    
     if(C1.count(a))
         return C1[a];
     else{
