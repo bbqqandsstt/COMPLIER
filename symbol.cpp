@@ -41,11 +41,11 @@ void write_prinfl_table(){ // ÌîÐ´º¯Êý±í
 }
 
 void write_ainfl_table(){
-    AINFL[count_AINFL].NAME=Sk[count_AINFL].type;
+    AINFL[count_AINFL].NAME=Sk[count_AINFL].name;
     AINFL[count_AINFL].LOW = 1;
     AINFL[count_AINFL].UP = stoi(Sk[count_AINFL].index);
     AINFL[count_AINFL].CTP = S_Type[count_AINFL]; // 1-int 2-float 3-char 4-string
-    AINFL[count_AINFL++].CLEN = SS_Type;
+    AINFL[count_AINFL++].CLEN = S_Type.size();
 }
 
 void write_symbol_table(){ // ÌîÐ´·ûºÅ±í

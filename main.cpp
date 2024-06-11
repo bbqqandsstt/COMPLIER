@@ -17,7 +17,6 @@ map<string,int> H;                 //头文件表
 vector<string> Ik;
 map<string,int> I;                //标识符表
 vector<pair<int,int>> I_Type;             //标识符所对应的类型,标识符是变量(=1)还是形参(=2)****************************************************
-int II_Type = 0;                 //标识符对应类型的现长度
 vector<string> C1k;
 map<string,int> C1;                 //常整数表
 vector<string> C2k;
@@ -28,13 +27,11 @@ vector<string> STk;
 map<string,int> ST;               //字符串常量
 vector<Array> Sk;
 map<Array,int> S;             //数组表
-int S_Type[20];             //数组中标识符所对应的类型****************************************************
-int SS_Type = 0;                 //数组中标识符的类别对应的长度
+vector<int> S_Type;             //数组中标识符所对应的类型****************************************************
 string Input;            ///输入的字符串
 int error = 0;                   //判断语法是否错误  0为无错误    
 vector<pair<int,int>> token;          //Token序列表****************************************************
-int token_len = 0;               //Token序列表的长度（行数）
-string formType[10]= { " ","K","P","I","C1","C2","CT","ST","H","S" };     //K=1，P=2，I=3......
+string formType[10]={" ","K","P","I","C1","C2","CT","ST","H","S"};     //K=1，P=2，I=3......
 
 void init(){
     for(int i=0;i<Kk.size();i++)
@@ -60,11 +57,11 @@ int main(){
         CX();           //开始语法分析
         if (!error){
             cout <<"****************************各种表***************************\n";
-            print_all_form();       //输出各种表
+            print_all_forms();       //输出各种表
             cout <<"\n\n****************************符号表***************************\n";
             make_table();           //开始进行符号表操作
             cout <<"\n\n****************************四元式序列***************************\n";
-            outputsiyuanshi();      //输出四元式序列
+            outputQuadruples();      //输出四元式序列
         }else{
             cout << "语法错误\n错误位置：" << x2 <<"\n";
             for (int i = 0,t; i < Next_w; i++){

@@ -1,5 +1,5 @@
 #pragma once
-#include "quat.h"
+#include "quad.h"
 
 void count_data();                      //辅助函数   x1为表的名字，x2为具体值,x3为token的第一个数字，x4为token的第二个数字
 void CX();

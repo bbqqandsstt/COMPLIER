@@ -1,6 +1,6 @@
 #include "printOut.h"
 
-void print_all_form(){ // 输出各种表
+void print_all_forms(){ // 输出各种表
     int i;
     cout << "标识符表：";
     for (auto i:Ik)
@@ -25,14 +25,13 @@ void print_all_form(){ // 输出各种表
         cout << i+ "  ";
     cout << "\n数组表：";
     for (auto i:Sk)
-        cout << i.type << "  ";
+        cout << i.name << "  ";
     cout << "\n数组长度表：";
     for (auto i:Sk)
         cout << i.index << "  ";
-    cout << endl;
-    cout << "数组类型表：";
-    for (i = 0; i < SS_Type; i++)
-        cout << S_Type[i] << "  ";
+    cout << "\n数组类型表：";
+    for (auto i:S_Type)
+        cout << i << "  ";
 }
 
 void make_table(){
@@ -61,11 +60,8 @@ void make_table(){
                 cout << "                │----------│----------│---------│\n";
                 write_symbol_table();
             }else if (x1=="S"){ // 储存数组
-                for (i = 0; x2[i] != '\0';)
-                    i++;
-                cout << "                │   ";
-                cout << x2;
-                for (; i < 7; i++)
+                cout << "                │   "<< x2;
+                for (i=x2.length(); i < 7; i++)
                     cout << " ";
                 cout << "│   "<<d1[S_Type[x4 - 1]]<< "│ array   │\n";
                 cout << "                │----------│----------│---------│\n";
@@ -142,9 +138,9 @@ void make_table(){
     cout << "              └───────────────────────────────────┘\n\n";
 }
 
-void outputsiyuanshi(){ // 输出所有四元式函数
+void outputQuadruples(){ // 输出所有四元式函数
     cout << "四元式序列为：\n";
-    for(int i=0;siyuanshi[i] != "";i++)
-        cout << siyuanshi[i]+"\n";
+    for(int i=0;quadruple[i] != "";i++)
+        cout << quadruple[i]+"\n";
     cout << endl;
 }

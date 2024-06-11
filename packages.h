@@ -24,21 +24,20 @@ extern vector<string> STk;
 extern map<string,int> ST;               //字符串常量
 extern vector<Array> Sk;
 extern map<Array,int> S;             //数组表
-extern int S_Type[20];             //数组中标识符所对应的类型
-extern int SS_Type;                 //数组中标识符的类别对应的长度
+extern vector<int> S_Type;             //数组中标识符所对应的类型
 extern string Input;            ///输入的字符串
 extern int error;                   //判断语法是否错误  0为无错误
 extern vector<pair<int,int>> token;          //Token序列表
 
 struct Array{
-    string type,index;
-    Array(string t,string i):type(t),index(i){}
+    string name,index;
+    Array(string n,string i):name(n),index(i){}
     bool operator<(const Array& a) const{
-        int f=type.compare(a.type),s=index.compare(a.index);
+        int f=name.compare(a.name),s=index.compare(a.index);
         return f<0;
     }
     friend ostream& operator<<(ostream& out,const Array& a){
-        out<<a.type+"["+a.index+"]";
+        out<<a.name+"["+a.index+"]";
         return out;
     }
 };

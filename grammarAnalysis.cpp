@@ -27,7 +27,7 @@ void count_data(){                       //¸¨Öúº¯Êý   x1Îª±íµÄÃû×Ö£¬x2Îª¾ßÌåÖµ,x
     else if (x1=="ST")
         x2= STk[mm];
     else if (x1=="S")
-        x2= Sk[mm].type;
+        x2= Sk[mm].name;
 }
 
 void CX(){          //³ÌÐò¿ªÊ¼   <CX> ¡ú {<WB>}<HD>{<HD>}
@@ -104,14 +104,13 @@ void WB(){          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<¡°BS¡±>[{<¡®,¡®><¡°BS¡±>}|<FG>]<¡
     }
     else if (x1=="S"){
         int s_len1;
-        for (int q = 0; q < SS_Type; q++)
-            if (Sk[q].type==x2){
+        for (int q = 0; q < S_Type.size(); q++)
+            if (Sk[q].name==x2){
                 error = 1;
                 return;
             }
-        S_Type[SS_Type] = aa;
-        s_len1 = stoi(Sk[SS_Type].index);
-        SS_Type++;
+        s_len1 = stoi(Sk[S_Type.size()].index);
+        S_Type.push_back(aa);
         Next_w++; count_data();
         if (x2=="="){
             SF(aa, s_len1);
@@ -163,7 +162,7 @@ void FG(int aa){    //¸³Öµ¸ñÊ½   <FG> ¡ú <¡¯=¡¯>(<¡±ZC¡±>|<SB>)
             if (error) 
                 return;
         }
-        QUATFUZHI();
+        quadAssign();
     }else
         error = 1;
 }
@@ -186,10 +185,10 @@ void SE(int aa){    //Ëã·û±í´ïÊ½ <SE> ¡ú [(+|-)<SD><SE>]
         if (error)
             return;
         if (cc-1){
-            QUATJIAN();
+            quadMinus();
             jilu++;
         }else{
-            QUATJIA();
+            quadPlus();
             jilu++;
         }
         SE(aa);
@@ -217,10 +216,10 @@ void SU(int aa){    //Ëã·û±í´ïÊ½ <SU> ¡ú [(*|/)<SV><SU>]
         if (error)
             return;
         if (cc-3){
-            QUATCHU();
+            quadDivide();
             jilu++;
         }else{
-            QUATCHENGE();
+            quadMultiply();
             jilu++;
         }
         SU(aa);
@@ -653,13 +652,13 @@ void XY(){          //Ñ¡ÔñÓï¾ä  <XY> ¡ú <if><¡®(¡¯><¡°BS¡±><PG><¡®)¡¯><XG>[<else
                     return;
                 if (x2==")"){
                     Next_w++; count_data();
-                    QUATIF();
+                    quadIf();
                     XG();
                     if (error)
                         return;
                     if (x2=="else"){
                         Next_w++; count_data();
-                        QUATELSE();
+                        quadElse();
                         XG();
                         if (error)
                             return;
@@ -676,7 +675,7 @@ void XY(){          //Ñ¡ÔñÓï¾ä  <XY> ¡ú <if><¡®(¡¯><¡°BS¡±><PG><¡®)¡¯><XG>[<else
             error = 1;
             return;
         }
-        QUATIFEND();
+        quadIfEnd();
     }else
         error = 1;
 }
@@ -722,7 +721,7 @@ void PG(int aa){    //ÅÐ¶Ï¸ñÊ½   <PG> ¡ú <PF>(<¡°BS¡±>|<¡°SS¡±>)
             error = 1;
             return;
         }
-        QUATBOOL();
+        quadBool();
         jilu++;
     }else
         error = 1;
@@ -738,7 +737,7 @@ void PF(){          //ÅÐ¶Ï·ûºÅ    <PF> ¡ú >|>=|<|<=|==
 void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><¡®(¡¯>[<¡°BS¡±><FG>]<¡®;¡®>[<¡°BS¡±><PG>]<¡®;¡¯>[<BD>]<¡®)¡¯><XG>
     int aa;
     if (x2=="while"){
-        QUATWHILE();
+        quadWhile();
         Next_w++; count_data();
         if (x2=="("){
             Next_w++; count_data();
@@ -751,9 +750,9 @@ void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><
                     return;
                 if (x2==")"){
                     Next_w++; count_data();
-                    QUATDO();
+                    quadDoWhile();
                     XG();
-                    QUATWHILEEND();
+                    quadWhileEnd();
                 }else
                     error = 1;
             }else
@@ -778,7 +777,7 @@ void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><
                 error = 1;
                 return;
             }
-            QUATFOR();
+            quadFor();
             if (x1=="I"){
                 s.push(x2);
                 aa = I_Type[x4 - 1].first;
@@ -800,27 +799,27 @@ void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><
             }
             if (x2==")"){
                 Next_w++; count_data();
-                QUATDOFOR();
+                quadDoFor();
                 XG();
                 if (y2 == 1){
                     s.push(yy);
                     s.push(yy);
                     s.push("1");
-                    QUATJIA();
+                    quadPlus();
                     jilu++;
-                    QUATFUZHI();
+                    quadAssign();
                     y2 = 0;
                 }
                 if (y2 == 2){
                     s.push(yy);
                     s.push(yy);
                     s.push("1");
-                    QUATJIAN();
+                    quadMinus();
                     jilu++;
-                    QUATFUZHI();
+                    quadAssign();
                     y2 = 0;
                 }
-                QUATFOREND();
+                quadForEnd();
             }else
                 error = 1;
         }else
