@@ -1,6 +1,6 @@
 #include "grammarAnalysis.h"
 
-int kk = 1,Next_w = 0,x3, x4,y2 = 0;
+int Next_w = 0,x3, x4,y2 = 0;
 string x1, x2,yy;
 
 /*  *****************     Óï·¨·ÖÎö¿ªÊ¼      *****************  */
@@ -109,7 +109,7 @@ void WB(){          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<¡°BS¡±>[{<¡®,¡®><¡°BS¡±>}|<FG>]<¡
                 error = 1;
                 return;
             }
-        s_len1 = stoi(Sk[S_Type.size()].index);
+        s_len1 = stoi(Sk[S_Type.size()].len);
         S_Type.push_back(aa);
         Next_w++; count_data();
         if (x2=="="){

@@ -1,7 +1,6 @@
 #include "printOut.h"
 
 void print_all_forms(){ // 输出各种表
-    int i;
     cout << "标识符表：";
     for (auto i:Ik)
         cout <<i+"  ";
@@ -28,14 +27,14 @@ void print_all_forms(){ // 输出各种表
         cout << i.name << "  ";
     cout << "\n数组长度表：";
     for (auto i:Sk)
-        cout << i.index << "  ";
+        cout << i.len << "  ";
     cout << "\n数组类型表：";
     for (auto i:S_Type)
         cout << i << "  ";
 }
 
 void make_table(){
-    int i, k, m;
+    int t;
     string d1[]={"","int    ","float  ","char   ","string ","void   "};
     cout << "             ******************SYMBL****************\n";
     cout << "                ┌───────────────────────────────┐\n";
@@ -44,25 +43,21 @@ void make_table(){
     for (Next_w = 0; Next_w < token.size(); Next_w++){ // 扫描token序列填表
         count_data();
         int flag = 1;                // 填表
-        for (i = 0; i < Next_w; i++) // 检查要填写的标识符或数组是否与先前填写的表重复
+        for(int i=0;i<Next_w;i++) // 检查要填写的标识符或数组是否与先前填写的表重复
             if (SYNBL[i].NAME==x2){
                 flag = 0; // 有重复，不填表
                 break;
             }
         if (flag){
+            t=7-x2.length();
             if (x1=="I"){ // 储存标识符和函数
-                cout << "                │   "<< x2;
-                for (i=x2.length(); i < 7; i++)
-                    cout << " ";
-                cout << "│   ";
+                cout << "                │   "<< x2<<string(t,' ')<< "│   ";
                 string d2[]={"function ","argument ","parameter"};
-                cout <<d1[I_Type[x4 - 1].first]<< "│"<<d2[I_Type[x4-1].second]<< "│\n";
+                cout<<d1[I_Type[x4-1].first]<< "│"<<d2[I_Type[x4-1].second]<<"│\n";
                 cout << "                │----------│----------│---------│\n";
                 write_symbol_table();
             }else if (x1=="S"){ // 储存数组
-                cout << "                │   "<< x2;
-                for (i=x2.length(); i < 7; i++)
-                    cout << " ";
+                cout << "                │   "<< x2<<string(t,' ');
                 cout << "│   "<<d1[S_Type[x4 - 1]]<< "│ array   │\n";
                 cout << "                │----------│----------│---------│\n";
                 write_ainfl_table();
@@ -75,16 +70,12 @@ void make_table(){
     cout << "            ┌─────────────────────────────────────────┐\n";
     cout << "            │-NAME-│-LEVEL-│-OFF-│-FN-│-ENTRY-│-PARAM-│\n";
     cout << "            │------│-------│-----│----│-------│-------│\n";
-    for (k = 0; k < count_PFINFL; k++){
-        for (i = 0; PFINFL[k].NAME[i] != '\0';)
-            i++;
-        cout << "            │";
-        cout << PFINFL[k].NAME;
-        for (; i < 6; i++)
-            cout << " ";
-        cout << "│   " << PFINFL[k].LEVEL << "   ";
-        cout << "│  " << PFINFL[k].OFF << "  ";
-        cout << "│ " << PFINFL[k].FN << "  ";
+    for (int i = 0; i < count_PFINFL; i++){
+        t=6-PFINFL[i].NAME.length();
+        cout << "            │"<< PFINFL[i].NAME<<string(t,' ');
+        cout << "│   " << PFINFL[i].LEVEL << "   ";
+        cout << "│  " << PFINFL[i].OFF << "  ";
+        cout << "│ " << PFINFL[i].FN << "  ";
         cout << "│ entry │       │\n";
         cout << "            │------│-------│-----│----│-------│-------│\n";
     }
@@ -93,41 +84,35 @@ void make_table(){
     cout << "                ┌───────────────────────────────┐\n";
     cout << "                │---NAME---│---TYPE---│---HSN---│\n";
     cout << "                │----------│----------│---------│\n";
-    for (m = 0; m < count_PFINFL; m++)
-        for (k = 0; k < count_PARAM[m]; k++){
-            for (i = 0; PFINFL[m].PARAM[k].NAME[i] != '\0';)
-                i++;
-            cout << "                │   ";
-            cout << PFINFL[m].PARAM[k].NAME;
-            for (; i < 7; i++)
-                cout << " ";
-            cout << "│   "<<d1[PFINFL[m].PARAM[k].TYPE]<< "│  ";
-            for (i = 0; PFINFL[m].PARAM[k].HSNAME[i] != '\0';)
-                i++;
-            cout << PFINFL[m].PARAM[k].HSNAME;
-            for (; i < 7; i++)
-                cout << " ";
-            cout << "│\n";
-            cout << "                │----------│----------│---------│\n";
+    for (int i=0;i<count_PFINFL;i++)
+        for (int j=0;j<count_PARAM[i];j++){
+            t=7-PFINFL[i].PARAM[j].NAME.length();
+            cout<<"                │   "<<PFINFL[i].PARAM[j].NAME<<string(t,' ');
+            cout << "│   "<<d1[PFINFL[i].PARAM[j].TYPE]<< "│  ";
+            t=7-PFINFL[i].PARAM[j].HSNAME.length();
+            cout << PFINFL[i].PARAM[j].HSNAME<<string(t,' ');
+            cout << "│\n                │----------│----------│---------│\n";
         }
     cout << "                └───────────────────────────────┘\n\n";
-    cout << "              *****************AINFL***************\n";
+    cout << "              ********************AINFL********************\n";
     cout << "              ┌────────────────────────────────────────────┐\n";
     cout << "              │--NAME--│---LOW--│---UP---│--TYPE--│--CLEN--│\n";
     cout << "              │--------│--------│--------│--------│--------│\n";
-    for (k = 0; k < count_AINFL; k++){
-        cout << "              │ "<< AINFL[k].NAME;
-        cout<<string(7-AINFL[k].NAME.length(),' ');
-        cout << "│    1   │ "<< AINFL[k].UP<< " │";
-        if (AINFL[k].CTP == 1)
+    for (int i = 0; i < count_AINFL; i++){
+        cout << "              │ "<< AINFL[i].NAME;
+        t=7-AINFL[i].NAME.length();
+        cout<<string(t,' ')<< "│    1   │";
+        t=8-to_string(AINFL[i].UP).length();
+        cout<<string(t/2,' ')<<AINFL[i].UP<<string(t/2+t%2,' ')<<"│";
+        if (AINFL[i].CTP == 1)
             cout << "  int   │   4    │\n";
-        else if (AINFL[k].CTP == 2)
+        else if (AINFL[i].CTP == 2)
             cout << " float  │   8    │\n";
-        else if (AINFL[k].CTP == 3)
+        else if (AINFL[i].CTP == 3)
             cout << "  char  │   1    │\n";
-        else if (AINFL[k].CTP == 4)
+        else if (AINFL[i].CTP == 4)
             cout << " string │   8    │\n";
-        cout << "              │--------│--------│--------│--------│--------│\n";
+        cout<<"              │--------│--------│--------│--------│--------│\n";
     }
     cout << "              └────────────────────────────────────────────┘\n\n";
 }
@@ -136,5 +121,5 @@ void outputQuadruples(){ // 输出所有四元式函数
     cout << "四元式序列为：\n";
     for(int i=0;quadruple[i] != "";i++)
         cout << quadruple[i]+"\n";
-    cout << endl;
+    cout << "\n";
 }

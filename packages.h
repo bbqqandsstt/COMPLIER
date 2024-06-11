@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include<sstream>
+#include<iomanip>
 #include<vector>
 #include<stack>
 #include<map>
@@ -34,14 +35,13 @@ extern int error;                   //判断语法是否错误  0为无错误
 extern vector<pair<int,int>> token;          //Token序列表
 
 struct Array{
-    string name,index;
-    Array(string n,string i):name(n),index(i){}
+    string name,len;
+    Array(string n,string l):name(n),len(l){}
     bool operator<(const Array& a) const{
-        int f=name.compare(a.name),s=index.compare(a.index);
-        return f<0;
+        return name<a.name;
     }
     friend ostream& operator<<(ostream& out,const Array& a){
-        out<<a.name+"["+a.index+"]";
+        out<<a.name+"["+a.len+"]";
         return out;
     }
 };

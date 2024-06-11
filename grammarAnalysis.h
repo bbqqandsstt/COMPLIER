@@ -29,5 +29,5 @@ void PF();
 void XH();
 void BD();
 
-extern int kk,Next_w,x3,x4,y2;
+extern int Next_w,x3,x4,y2;
 extern string x1,x2,yy;

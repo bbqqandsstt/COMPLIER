@@ -3,8 +3,7 @@
 /*  *****************     词法分析开始      *****************  */
 void wordAnalyse(){                  //词法分析函数
     string a;               
-    int j, k, m,t = 0;                 
-    for (int i = 0; i <Input.length();){
+    for (int i = 0,m; i <Input.length();){
         a.clear();
         for(;Input[i] == ' ';i++);
         if (Input[i] == '#'){
@@ -99,11 +98,16 @@ void wordAnalyse(){                  //词法分析函数
                 token.push_back({5,is_C2(a)});
             else
                 token.push_back({4,is_C1(a)});
-        }else if (!t&& (Input[i] == '\'' || (Input[i] == '"' && Input[i - 1] != '(' && Input[i + 1] != ')') || (Input[i] == '"' && Input[i - 1] == '(' && Input[i + 1] != '%'))){
-            a = string(1,Input[i++]);
-            for(;a[0] == '"' && Input[i] != '"';i++)
+        }else if(Input[i] == '\'' || (Input[i] == '\"' && Input[i - 1] != '(' && Input[i + 1] != ')') || (Input[i] == '\"' && Input[i - 1] == '(' && Input[i + 1] != '%')){
+            a.push_back(Input[i++]);
+            for(;a[0] == '\"' && Input[i] != '\"';i++){
+                if(i>=Input.length()){
+                    error=1;
+                    return ;
+                }
                 a+=Input[i];
-            if (a[0] == '"')
+            }
+            if (a[0] == '\"')
                 a+=Input[i++];
             if (a[0] == '\''){
                 a+=Input[i++];
@@ -115,7 +119,7 @@ void wordAnalyse(){                  //词法分析函数
             }
             if (a[0] == '\'')
                 token.push_back({6,is_CT(a)});
-            else if (a[0] == '"')
+            else if (a[0] == '\"')
                 token.push_back({7,is_ST(a)});
         }else{       //如果首字符是界符
             a.push_back(Input[i++]);
