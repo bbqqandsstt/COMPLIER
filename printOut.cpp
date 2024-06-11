@@ -112,30 +112,24 @@ void make_table(){
         }
     cout << "                └───────────────────────────────┘\n\n";
     cout << "              *****************AINFL***************\n";
-    cout << "              ┌───────────────────────────────────┐\n";
-    cout << "              │--NAME--│-LOW-│-UP-│--TYPE--│-CLEN-│\n";
-    cout << "              │--------│-----│----│--------│------│\n";
+    cout << "              ┌────────────────────────────────────────────┐\n";
+    cout << "              │--NAME--│---LOW--│---UP---│--TYPE--│--CLEN--│\n";
+    cout << "              │--------│--------│--------│--------│--------│\n";
     for (k = 0; k < count_AINFL; k++){
-        for (i = 0; AINFL[k].NAME[i] != '\0';)
-            i++;
-        cout << "              │ ";
-        cout << AINFL[k].NAME;
-        for (; i < 7; i++)
-            cout << " ";
-        cout << "│  1  │ ";
-        cout << AINFL[k].UP;
-        cout << "  │";
+        cout << "              │ "<< AINFL[k].NAME;
+        cout<<string(7-AINFL[k].NAME.length(),' ');
+        cout << "│    1   │ "<< AINFL[k].UP<< " │";
         if (AINFL[k].CTP == 1)
-            cout << "  int   │  4   │\n";
+            cout << "  int   │   4    │\n";
         else if (AINFL[k].CTP == 2)
-            cout << " float  │  8   │\n";
+            cout << " float  │   8    │\n";
         else if (AINFL[k].CTP == 3)
-            cout << "  char  │  1   │\n";
+            cout << "  char  │   1    │\n";
         else if (AINFL[k].CTP == 4)
-            cout << " string │  8   │\n";
-        cout << "              │--------│-----│----│--------│------│\n";
+            cout << " string │   8    │\n";
+        cout << "              │--------│--------│--------│--------│--------│\n";
     }
-    cout << "              └───────────────────────────────────┘\n\n";
+    cout << "              └────────────────────────────────────────────┘\n\n";
 }
 
 void outputQuadruples(){ // 输出所有四元式函数

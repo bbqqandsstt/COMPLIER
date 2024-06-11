@@ -1,5 +1,9 @@
 #pragma once
-#include<bits/stdc++.h>
+#include<iostream>
+#include<sstream>
+#include<vector>
+#include<stack>
+#include<map>
 using namespace std;
 
 struct Array;
