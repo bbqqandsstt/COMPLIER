@@ -8,10 +8,10 @@ struct AINFLNode;
 struct PARAMLNode;
 struct PFINFLNode;
 
-extern SYMBLNode SYMBL[20];
-extern TYPELNode TYPEL[20];
-extern AINFLNode AINFL[20];
-extern PFINFLNode PFINFL[20],PARAM[20];
+extern SYMBLNode SYMBL[400];
+extern TYPELNode TYPEL[400];
+extern AINFLNode AINFL[400];
+extern PFINFLNode PFINFL[400],PARAM[400];
 
 extern int count_SYNBL;//代表第count_SYNBL+1个表项
 extern int count_TYPEL;//代表第count_TYPEL+1个表项

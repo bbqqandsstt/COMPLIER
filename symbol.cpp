@@ -1,11 +1,11 @@
 #include "symbol.h"
 
 /*  *****************     符号表填写      *****************  */
-SYMBLNode SYMBL[20];
-TYPELNode TYPEL[20];
-AINFLNode AINFL[20];
-PFINFLNode PFINFL[20];
-PFINFLNode PARAM[20];
+SYMBLNode SYMBL[400];
+TYPELNode TYPEL[400];
+AINFLNode AINFL[400];
+PFINFLNode PFINFL[400];
+PFINFLNode PARAM[400];
 
 int count_SYNBL = 0;                  // 代表第count_SYNBL+1个表项
 int count_TYPEL = 0;                  // 代表第count_TYPEL+1个表项

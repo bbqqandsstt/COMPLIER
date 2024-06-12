@@ -5,7 +5,7 @@ void wordAnalyse(){                  //´Ê·¨·ÖÎöº¯Êý
     string a;               
     for (int i = 0,m; i <Input.length();){
         a.clear();
-        for(;Input[i] == ' ';i++);
+        for(;Input[i]==' '||Input[i]=='\t';i++);
         if (Input[i] == '#'){
             i++;
             for(;isalpha(Input[i]);i++)

@@ -18,7 +18,7 @@ extern vector<string> Hk;
 extern map<string,int> H;                 //头文件表
 extern vector<string> Ik;
 extern map<string,int> I;                //标识符表
-extern vector<pair<int,int>> I_Type;             //标识符所对应的类型,标识符是变量(=1)还是形参(=2)
+extern vector<pair<int,int>> I_Type;             //标识符所对应的类型; 标识符是变量(=1)还是形参(=2)
 extern vector<string> C1k;
 extern map<string,int> C1;                 //常整数表
 extern vector<string> C2k;
@@ -31,7 +31,7 @@ extern vector<Array> Sk;
 extern map<Array,int> S;             //数组表
 extern vector<int> S_Type;             //数组中标识符所对应的类型
 extern string Input;            ///输入的字符串
-extern int error;                   //判断语法是否错误  0为无错误
+extern int error;                   //判断语法是否错误。0为无错误
 extern vector<pair<int,int>> token;          //Token序列表
 
 struct Array{
