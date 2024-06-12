@@ -503,21 +503,20 @@ void RG(){          //输入格式   <RG> → <GF><','>(<'&'><"BS">|<"SZ">)
 
 void CG(){          //输出格式   <CG> → <'\"'><GF><'\"'><','><"BS">|<"ZC">
     int aa;
-    if (x2.find("\"")!=string::npos){
-        aa = GF();
-        if (error)
-            return;
-        if (x2==","){
-            Next_w++; count_data();
-            if (aa == I_Type[x4 - 1].first){
+    if (x1=="ST")
+        if(aa = GF())
+            if (x2==","){
                 Next_w++; count_data();
+                if (aa == I_Type[x4 - 1].first){
+                    Next_w++; count_data();
+                }else
+                    error = 1;
             }else
                 error = 1;
-        }else
-            error = 1;
-    }else if (x1=="ST"){
-        Next_w++; count_data();
-    }else
+        else{
+            error=0;Next_w++; count_data();
+        }
+    else
         error = 1;
 }
 

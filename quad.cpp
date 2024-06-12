@@ -13,13 +13,7 @@ int for1, for2, for3, for4;         // 用于for四元式回填地址时使用的
 /*  *****************     语义分析函数定义开始      *****************  */
 int xuhao1 = 0;
 string quadruple1[100];
-
 string SYS[50][4];     // 数组四元式
-string SYS_new[50][4]; // 优化过的数组四元式
-int SYS_new_len = 0;   // 优化过后的数组四元式的长度
-
-string youhua_quan[50][10], youhua_caozuo[50][4];
-int youhua_quan_j_len[50], quan = 0, caozuo = 0;
 
 // 语法制导生成四元式
 void quadPlus(){ // 加号生成四元式

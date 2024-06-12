@@ -4,7 +4,6 @@
 SYNBLNode SYNBL[20];
 TYPELNode TYPEL[20];
 AINFLNode AINFL[20];
-RINFLNode RINFL[20];
 PFINFLNode PFINFL[20];
 PFINFLNode PARAM[20];
 
@@ -67,8 +66,6 @@ void write_symbol_table(){ // 填写符号表
             SYNBL[count_SYNBL].CAT = 5;
             SYNBL[count_SYNBL].TYPE = NULL; // void 返回类型
             SYNBL[count_SYNBL].ADDR_1 = &PFINFL[count_PFINFL - 1];
-            SYNBL[count_SYNBL].ADDR_2 = NULL;
-            SYNBL[count_SYNBL].ADDR_3 = NULL;
         }
     }else if (x1=="S"){ // 填写数组
         SYNBL[count_SYNBL].NAME=x2; // 赋予标识符名称

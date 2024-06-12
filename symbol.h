@@ -5,16 +5,12 @@
 struct SYNBLNode;
 struct TYPELNode;
 struct AINFLNode;
-struct RINFLNode;
 struct PARAMLNode;
 struct PFINFLNode;
-struct CONSLNode;
-struct LENLNode;
 
 extern SYNBLNode SYNBL[20];
 extern TYPELNode TYPEL[20];
 extern AINFLNode AINFL[20];
-extern RINFLNode RINFL[20];
 extern PFINFLNode PFINFL[20];
 extern PFINFLNode PARAM[20];
 
@@ -31,17 +27,12 @@ struct SYNBLNode{//符号总表
     int CAT;//种类
     //addr地址
     PFINFLNode* ADDR_1 = NULL;//
-    CONSLNode* ADDR_2 = NULL;
-    LENLNode* ADDR_3 = NULL;
-    //VALLNode* ADDR_4;
-
 };
 
 struct TYPELNode{//类型表
     int TVAL;//类型代码：i-1(整型)，r-2实型)，c-3(字符型)，b-4(布尔型)，a-5(数组型)，d-6(结构型)
     int* TPOINT = NULL;
     AINFLNode* TPOINT_1 = NULL; //指针指向数组表
-    RINFLNode* TPOINT_2 = NULL;//指针指向结构表
     //TYPELNode* next;//下一个结点
 };
 
@@ -51,12 +42,6 @@ struct AINFLNode{//数组表
     int UP;//数组上界
     int CTP;//成分   1-int 2-float 3-char 4-string
     int CLEN; //成分类型的长度
-};
-
-struct RINFLNode{//结构表
-    string ID;//结构域名
-    int OFF;//区距-值单元首址相对于所在记录值区区头位置；
-    string* TP = NULL;//域成分类型指针
 };
 
 struct PARAMLNode{//参数表

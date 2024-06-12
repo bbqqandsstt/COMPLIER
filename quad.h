@@ -31,7 +31,3 @@ extern int for1, for2, for3, for4;         // 用于for四元式回填地址时使用的
 extern int xuhao1;
 extern string quadruple1[100];
 extern string SYS[50][4];     // 数组四元式
-extern string SYS_new[50][4]; // 优化过的数组四元式
-extern int SYS_new_len;       // 优化过后的数组四元式的长度
-extern string youhua_quan[50][10], youhua_caozuo[50][4];
-extern int youhua_quan_j_len[50], quan, caozuo;
