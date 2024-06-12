@@ -58,7 +58,7 @@ void CX(){          //³ÌÐò¿ªÊ¼   <CX> ¡ú {<WB>}<HD>{<HD>}
         error = 1;
 }
 
-void WB(){          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<¡°BS¡±>[{<¡®,¡®><¡°BS¡±>}|<FG>]<¡¯;¡¯>|<¡±SZ¡±>[<SF>]<¡¯;¡¯>)
+void WB(){          //Íâ²¿ÉùÃ÷   <WB> ¡ú <BL>|<"BS">[{<','><"BS">}|<FG>]<';'>|<"SZ">[<SF>]<';'>)
     int aa= BL();
     if (!aa)
         return;
@@ -148,7 +148,7 @@ int BL(){           //±äÁ¿ÉùÃ÷   <BL> ¡ú int | float | char |string
     }
 }
 
-void FG(int aa){    //¸³Öµ¸ñÊ½   <FG> ¡ú <¡¯=¡¯>(<¡±ZC¡±>|<SB>)
+void FG(int aa){    //¸³Öµ¸ñÊ½   <FG> ¡ú <'='>(<"ZC">|<SB>)
     if (x2=="="){
         Next_w++; count_data();
         if (x1=="CT" && aa == 3){
@@ -229,7 +229,7 @@ void SU(int aa){    //Ëã·û±í´ïÊ½ <SU> ¡ú [(*|/)<SV><SU>]
         return;
 }
 
-void SV(int aa){    //Ëã·û±í´ïÊ½ <SV> ¡ú <¡±BS¡±> push(i)|<¡±SS¡±> push(i)|<¡¯(¡¯><SB><¡¯)¡¯>
+void SV(int aa){    //Ëã·û±í´ïÊ½ <SV> ¡ú <"BS"> push(i)|<"SS"> push(i)|<'('><SB><')'>
     if (x1=="I" && aa == I_Type[x4 - 1].first){
         s.push(x2);
         Next_w++; count_data();
@@ -256,7 +256,7 @@ void SV(int aa){    //Ëã·û±í´ïÊ½ <SV> ¡ú <¡±BS¡±> push(i)|<¡±SS¡±> push(i)|<¡¯(¡
     }
 }
 
-void SF(int aa, int bb){    //Êý×é¿ªÊ¼¸³Öµ¸ñÊ½  <SF> ¡ú <¡¯=¡¯><¡®{¡¯>(<¡±SS¡±>{<¡±SS¡±>}|<¡±ZC¡±>{<¡±ZC¡±>})<¡¯}¡¯>
+void SF(int aa, int bb){    //Êý×é¿ªÊ¼¸³Öµ¸ñÊ½  <SF> ¡ú <'='><'{'>(<"SS">{<"SS">}|<"ZC">{<"ZC">})<'}'>
     int i = 0;
     if (x2=="="){
         Next_w++; count_data();
@@ -369,7 +369,7 @@ void HD(){          //º¯Êý¶¨Òå   <HD> ¡ú <void><ZF><'{'><YG>{<YG>}<'}'>
     }
 }
 
-void ZF(){          //Ö±½ÓËµÃ÷·û <ZF> ¡ú <¡°BS¡±><¡®(¡¯>[<CL>]<¡®)¡¯>
+void ZF(){          //Ö±½ÓËµÃ÷·û <ZF> ¡ú <"BS"><'('>[<CL>]<')'>
     if (x1=="I"){
         I_Type.push_back({5,0});
         Next_w++; count_data();
@@ -396,7 +396,7 @@ void ZF(){          //Ö±½ÓËµÃ÷·û <ZF> ¡ú <¡°BS¡±><¡®(¡¯>[<CL>]<¡®)¡¯>
     }
 }
 
-void CL(){          //²ÎÊýÁÐ±í   <CL> ¡ú <BL><¡°BS¡±>{<¡¯,¡¯><BL><¡°BS¡±>}
+void CL(){          //²ÎÊýÁÐ±í   <CL> ¡ú <BL><"BS">{<','><BL><"BS">}
     int aa= BL();
     if (x1=="I"){
         I_Type.push_back({aa,2});
@@ -420,7 +420,7 @@ void CL(){          //²ÎÊýÁÐ±í   <CL> ¡ú <BL><¡°BS¡±>{<¡¯,¡¯><BL><¡°BS¡±>}
     }
 }
 
-void YG(){          //Óï¾ä       <YG> ¡ú <WB>|<BY><¡¯;¡¯>|<XY>|<XH>
+void YG(){          //Óï¾ä       <YG> ¡ú <WB>|<BY><';'>|<XY>|<XH>
     if (x2=="int"||x2=="float"||x2=="char"||x2=="string")
         WB();
     else if (x2=="scanf"||x2=="printf"||x1=="I"||x1=="S"){
@@ -439,7 +439,7 @@ void YG(){          //Óï¾ä       <YG> ¡ú <WB>|<BY><¡¯;¡¯>|<XY>|<XH>
         error = 1;
 }
 
-void BY(){          //±í´ïÊ½Óï¾ä <BY> ¡ú <scanf><¡¯(¡¯><RG><¡®)¡®>|<printf><¡¯(¡¯><CG><¡®)¡®>|<FZ>
+void BY(){          //±í´ïÊ½Óï¾ä <BY> ¡ú <scanf><'('><RG><')'>|<printf><'('><CG><')'>|<FZ>
     if (x2=="scanf"){
         Next_w++; count_data();
         if (x2=="("){
@@ -470,7 +470,7 @@ void BY(){          //±í´ïÊ½Óï¾ä <BY> ¡ú <scanf><¡¯(¡¯><RG><¡®)¡®>|<printf><¡¯(¡
         FZ();
 }
 
-void RG(){          //ÊäÈë¸ñÊ½   <RG> ¡ú <¡¯¡°¡®><GF><¡¯¡±¡¯><¡¯,¡¯>(<¡¯&¡¯><¡°BS¡±>|<¡°SZ¡±>)
+void RG(){          //ÊäÈë¸ñÊ½   <RG> ¡ú <'\"'><GF><'\"'><','>(<'&'><"BS">|<"SZ">)
     int aa;
     if (x2=="\""){
         Next_w++; count_data();
@@ -506,7 +506,7 @@ void RG(){          //ÊäÈë¸ñÊ½   <RG> ¡ú <¡¯¡°¡®><GF><¡¯¡±¡¯><¡¯,¡¯>(<¡¯&¡¯><¡°B
         error = 1;
 }
 
-void CG(){          //Êä³ö¸ñÊ½   <CG> ¡ú <¡¯¡°¡¯><GF><¡¯¡±¡¯><¡¯,¡¯><¡°BS¡±>|<¡°ZC¡±>
+void CG(){          //Êä³ö¸ñÊ½   <CG> ¡ú <'\"'><GF><'\"'><','><"BS">|<"ZC">
     int aa;
     if (x2=="\""){
         Next_w++; count_data();
@@ -549,7 +549,7 @@ int GF(){           //¸ñÊ½·ûºÅ   <GF> ¡ú %d|%f|%c|%s
     return 0;
 }
 
-void FZ(){          //¸³Öµ±í´ïÊ½ <FZ> ¡ú <¡°BS¡±>(<FG>|<¡®(¡¯>[<DG>]<¡¯)¡¯>)|<¡±SZ¡±><¡¯[¡¯>(<¡±BS¡±>|<¡±SS¡±>)<¡¯]¡¯><FG>
+void FZ(){          //¸³Öµ±í´ïÊ½ <FZ> ¡ú <"BS">(<FG>|<'('>[<DG>]<')'>)|<"SZ"><'['>(<"BS">|<"SS">)<']'><FG>
     int aa;
     if (x1=="I"){
         s.push(x2);
@@ -575,7 +575,7 @@ void FZ(){          //¸³Öµ±í´ïÊ½ <FZ> ¡ú <¡°BS¡±>(<FG>|<¡®(¡¯>[<DG>]<¡¯)¡¯>)|<¡±
             Next_w++; count_data();
             if (x1=="I"){
                 Next_w++; count_data();
-            }else if (x1=="C1"){    //C1<Êý×éµÄ×î´ó³¤¶È(»¹Î´ÅÐ¶Ï)
+            }else if (x1=="C1"){    //TODO: C1<Êý×éµÄ×î´ó³¤¶È(»¹Î´ÅÐ¶Ï)
                 Next_w++; count_data();
             }else{
                 error = 1;
@@ -593,7 +593,7 @@ void FZ(){          //¸³Öµ±í´ïÊ½ <FZ> ¡ú <¡°BS¡±>(<FG>|<¡®(¡¯>[<DG>]<¡¯)¡¯>)|<¡±
 }
 
 //TODO
-void DG(){         //µ÷ÓÃ¸ñÊ½  <DG> ¡ú (<¡±BS¡±>|<¡±SS¡±>|<¡±ZC¡±>){<¡¯,¡¯>(<¡±BS¡±>|<¡±SS¡±>|<¡±ZC¡±>)}  º¯ÊýÖÐÐÎÊ½²ÎÊý¶ÔÓ¦ÀàÐÍÏàÍ¬£¨Î´ÊµÏÖ£©
+void DG(){         //µ÷ÓÃ¸ñÊ½  <DG> ¡ú (<"BS">|<"SS">|<"ZC">){<','>(<"BS">|<"SS">|<"ZC">)}  º¯ÊýÖÐÐÎÊ½²ÎÊý¶ÔÓ¦ÀàÐÍÏàÍ¬£¨Î´ÊµÏÖ£©
     if (x1=="I"){
         Next_w++; count_data();
         
@@ -637,7 +637,7 @@ void DG(){         //µ÷ÓÃ¸ñÊ½  <DG> ¡ú (<¡±BS¡±>|<¡±SS¡±>|<¡±ZC¡±>){<¡¯,¡¯>(<¡±B
     }
 }
 
-void XY(){          //Ñ¡ÔñÓï¾ä  <XY> ¡ú <if><¡®(¡¯><¡°BS¡±><PG><¡®)¡¯><XG>[<else><XG>]
+void XY(){          //Ñ¡ÔñÓï¾ä  <XY> ¡ú <if><'('><"BS"><PG><')'><XG>[<else><XG>]
     int aa;
     if (x2=="if"){
         Next_w++; count_data();
@@ -696,7 +696,7 @@ void XG(){          //Ñ¡ÔñÓï¾ä¸ñÊ½  <XG> ¡ú<'{'><YG>{<YG>}<'}'>|<YG>
         YG();
 }
 
-void PG(int aa){    //ÅÐ¶Ï¸ñÊ½   <PG> ¡ú <PF>(<¡°BS¡±>|<¡°SS¡±>)
+void PG(int aa){    //ÅÐ¶Ï¸ñÊ½   <PG> ¡ú <PF>(<"BS">|<"SS">)
     int aa1;
     if (x2==">"||x2==">="||x2=="<"||x2=="<="||x2=="=="){
         bo = x2;
@@ -734,7 +734,7 @@ void PF(){          //ÅÐ¶Ï·ûºÅ    <PF> ¡ú >|>=|<|<=|==
         error = 1;
 }
 
-void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><¡®(¡¯>[<¡°BS¡±><FG>]<¡®;¡®>[<¡°BS¡±><PG>]<¡®;¡¯>[<BD>]<¡®)¡¯><XG>
+void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><'('><"BS"><PG><')'><XG>|<for><'('>[<"BS"><FG>]<';'>[<"BS"><PG>]<';'>[<BD>]<')'><XG>
     int aa;
     if (x2=="while"){
         quadWhile();
@@ -828,7 +828,7 @@ void XH(){      //Ñ­»·Óï¾ä   <XH> ¡ú <while><¡®(¡¯><¡°BS¡±><PG><¡®)'><XG>|<for><
         error = 1;
 }
 
-void BD(){      //±ä»¯±í´ïÊ½ <BD> ¡ú <¡°BS¡±>(<¡±++¡±>|<¡±--¡±>)|(<¡±--¡±>|<¡±++¡±>)<¡°BS¡±>
+void BD(){      //±ä»¯±í´ïÊ½ <BD> ¡ú <"BS">(<"++">|<"--">)|(<"--">|<"++">)<"BS">
     if (x1=="I" && I_Type[x4 - 1].first == 1){
         yy=x2;
         Next_w++; count_data();
