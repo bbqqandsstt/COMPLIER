@@ -98,7 +98,7 @@ void wordAnalyse(){                  //´Ê·¨·ÖÎöº¯Êý
                 token.push_back({5,is_C2(a)});
             else
                 token.push_back({4,is_C1(a)});
-        }else if(Input[i] == '\'' || (Input[i] == '\"' && Input[i - 1] != '(' && Input[i + 1] != ')') || (Input[i] == '\"' && Input[i - 1] == '(' && Input[i + 1] != '%')){
+        }else if(Input[i] == '\'' || Input[i] == '\"'){
             a.push_back(Input[i++]);
             for(;a[0] == '\"' && Input[i] != '\"';i++){
                 if(i>=Input.length()){

@@ -470,32 +470,27 @@ void BY(){          //表达式语句 <BY> → <scanf><'('><RG><')'>|<printf><'('><CG>
         FZ();
 }
 
-void RG(){          //输入格式   <RG> → <'\"'><GF><'\"'><','>(<'&'><"BS">|<"SZ">)
+void RG(){          //输入格式   <RG> → <GF><','>(<'&'><"BS">|<"SZ">)
     int aa;
-    if (x2=="\""){
-        Next_w++; count_data();
+    if (x1=="ST"){
         aa = GF();
         if (error)
             return;
-        if (x2=="\""){
+        if (x2==","){
             Next_w++; count_data();
-            if (x2==","){
+            if (x2=="&"){
                 Next_w++; count_data();
-                if (x2=="&"){
+                if (x1!="I"){
+                    error = 1;
+                    return;
+                }
+                if (aa == I_Type[x4 - 1].first){
                     Next_w++; count_data();
-                    if (x1!="I"){
-                        error = 1;
-                        return;
-                    }
-                    if (aa == I_Type[x4 - 1].first){
-                        Next_w++; count_data();
-                    }else
-                        error = 1;
-                }else if (x1=="S"){
-                    if (aa == S_Type[x4 - 1]){
-                        Next_w++; count_data();
-                    }else
-                        error = 1;
+                }else
+                    error = 1;
+            }else if (x1=="S"){
+                if (aa == S_Type[x4 - 1]){
+                    Next_w++; count_data();
                 }else
                     error = 1;
             }else
@@ -508,19 +503,14 @@ void RG(){          //输入格式   <RG> → <'\"'><GF><'\"'><','>(<'&'><"BS">|<"SZ"
 
 void CG(){          //输出格式   <CG> → <'\"'><GF><'\"'><','><"BS">|<"ZC">
     int aa;
-    if (x2=="\""){
-        Next_w++; count_data();
+    if (x2.find("\"")!=string::npos){
         aa = GF();
         if (error)
             return;
-        if (x2=="\""){
+        if (x2==","){
             Next_w++; count_data();
-            if (x2==","){
+            if (aa == I_Type[x4 - 1].first){
                 Next_w++; count_data();
-                if (aa == I_Type[x4 - 1].first){
-                    Next_w++; count_data();
-                }else
-                    error = 1;
             }else
                 error = 1;
         }else
@@ -531,17 +521,17 @@ void CG(){          //输出格式   <CG> → <'\"'><GF><'\"'><','><"BS">|<"ZC">
         error = 1;
 }
 
-int GF(){           //格式符号   <GF> → %d|%f|%c|%s
-    if (x2=="%d"){
+int GF(){           //格式符号   <GF> → </">%d|%f|%c|%s</">
+    if (x2.find("%d")!=string::npos){
         Next_w++; count_data();
         return 1;
-    }else if (x2=="%f"){
+    }else if (x2.find("%f")!=string::npos){
         Next_w++; count_data();
         return 2;
-    }else if (x2=="%c"){
+    }else if (x2.find("%c")!=string::npos){
         Next_w++; count_data();
         return 3;
-    }else if (x2=="%s"){
+    }else if (x2.find("%s")!=string::npos){
         Next_w++; count_data();
         return 4;
     }else 
