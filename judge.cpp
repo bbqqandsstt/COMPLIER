@@ -54,7 +54,7 @@ int is_S(string a){            //是否为S(数组表)中的值,如果不是，则存入
     string n=a.substr(0,p),l=a.substr(p+1,q-p-1);
     try{
         p=stoi(l,&q);
-        if(l.find_first_not_of(" ",q)!=string::npos)
+        if(I.count(n)||l.find_first_not_of(" ",q)!=string::npos)
             throw runtime_error("");
     }catch(exception e){
         return -1;

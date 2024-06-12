@@ -1,7 +1,7 @@
 #include "symbol.h"
 
 /*  *****************     符号表填写      *****************  */
-SYNBLNode SYNBL[20];
+SYMBLNode SYMBL[20];
 TYPELNode TYPEL[20];
 AINFLNode AINFL[20];
 PFINFLNode PFINFL[20];
@@ -55,21 +55,21 @@ void write_symbol_table(){ // 填写符号表
 
     if (x1=="I"){ // 填写int float char string void函数
         if (0<p.first && p.first <5){ // x4:int-1,float-2,char-3,string-4
-            SYNBL[count_SYNBL].NAME=x2;     // 赋予标识符名称
-            SYNBL[count_SYNBL].CAT = p.first; // 填写种类
+            SYMBL[count_SYNBL].NAME=x2;     // 赋予标识符名称
+            SYMBL[count_SYNBL].CAT = p.first; // 填写种类
 
             if (p.second == 2)
                 write_param_table();
         }else if (p.first == 5){ // x4:void-5
-            SYNBL[count_SYNBL].NAME=x2; // 赋予标识符名称
+            SYMBL[count_SYNBL].NAME=x2; // 赋予标识符名称
             write_prinfl_table();                // 填写函数表
-            SYNBL[count_SYNBL].CAT = 5;
-            SYNBL[count_SYNBL].TYPE = NULL; // void 返回类型
-            SYNBL[count_SYNBL].ADDR_1 = &PFINFL[count_PFINFL - 1];
+            SYMBL[count_SYNBL].CAT = 5;
+            SYMBL[count_SYNBL].TYPE = NULL; // void 返回类型
+            SYMBL[count_SYNBL].ADDR_1 = &PFINFL[count_PFINFL - 1];
         }
     }else if (x1=="S"){ // 填写数组
-        SYNBL[count_SYNBL].NAME=x2; // 赋予标识符名称
-        SYNBL[count_SYNBL].CAT = 5;          // 填写数组种类，CAT对应数字5
+        SYMBL[count_SYNBL].NAME=x2; // 赋予标识符名称
+        SYMBL[count_SYNBL].CAT = 5;          // 填写数组种类，CAT对应数字5
     }
 
     count_SYNBL++;

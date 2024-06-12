@@ -2,17 +2,16 @@
 #include "packages.h"
 #include "grammarAnalysis.h"
 
-struct SYNBLNode;
+struct SYMBLNode;
 struct TYPELNode;
 struct AINFLNode;
 struct PARAMLNode;
 struct PFINFLNode;
 
-extern SYNBLNode SYNBL[20];
+extern SYMBLNode SYMBL[20];
 extern TYPELNode TYPEL[20];
 extern AINFLNode AINFL[20];
-extern PFINFLNode PFINFL[20];
-extern PFINFLNode PARAM[20];
+extern PFINFLNode PFINFL[20],PARAM[20];
 
 extern int count_SYNBL;//代表第count_SYNBL+1个表项
 extern int count_TYPEL;//代表第count_TYPEL+1个表项
@@ -21,7 +20,7 @@ extern int count_PFINFL;//代表第count_PFINFL+1个表项
 extern int count_PARAM[5];//代表第count_PARAM+1个表项
 extern int count_LEVEL;//记录函数层次号
 
-struct SYNBLNode{//符号总表
+struct SYMBLNode{//符号总表
     string NAME;//内容（名字）
     TYPELNode* TYPE;//指向类型表的TYPE指针
     int CAT;//种类

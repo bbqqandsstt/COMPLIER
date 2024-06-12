@@ -501,7 +501,7 @@ void RG(){          //输入格式   <RG> → <GF><','>(<'&'><"BS">|<"SZ">)
         error = 1;
 }
 
-void CG(){          //输出格式   <CG> → <'\"'><GF><'\"'><','><"BS">|<"ZC">
+void CG(){          //输出格式   <CG> → <GF><','><"BS">|<"ZC">
     int aa;
     if (x1=="ST")
         if(aa = GF())
