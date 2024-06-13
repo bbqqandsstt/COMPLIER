@@ -1,5 +1,5 @@
 #include<stdio.h>
-void p(int t){
+void pf(int t){
     printf("%d",t);
 }
 void main(){
@@ -9,13 +9,14 @@ void main(){
     string d="fjjfbdkjbk";
     int x[3324];
     scanf("%d",&i);
-    printf("%f",b);
-    if(a>1)
-        a=a-1;
-    else
-        a=a+1;
-    while(b>1.0)
+    printf("%f\n",b);
+    while(b>1.0){
         b=b-0.5;
-    for(a=2;a>1;a++)
-        a=a-2;
+        if(a>1)
+            a=a-1;
+        else
+            a=a+1;
+    }
+    for(i=2;i>1;i++)
+        i=i-2;
 }@

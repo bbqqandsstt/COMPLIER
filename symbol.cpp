@@ -12,7 +12,7 @@ int cnt_TYPEL = 0;                  // 代表第cnt_TYPEL+1个表项
 int cnt_ARRAY = 0;                  // 代表第cnt_AINFL+1个表项
 int cnt_FUNCL = 0;                 // 代表第cnt_PFINFL+1个表项
 int cnt_PARAM[5] = {0, 0, 0, 0, 0}; // 代表第cnt_PARAM+1个表项
-int cnt_LEVEL = 3;                  // 记录函数层次号
+int cnt_LEVEL = 0;                  // 记录函数层次号
 
 void write_param_table(){ // 填写函数形参表
     //   cout << "填写形参表" << endl;
@@ -21,7 +21,7 @@ void write_param_table(){ // 填写函数形参表
     FUNCL[cnt_FUNCL - 1].PARAM[cnt_PARAM[cnt_FUNCL - 1]].NAME=x2; // 赋予标识符名称
     // cout << FUNCL[cnt_FUNCL - 1].PARAM->NAME << "是形参" << endl;
     FUNCL[cnt_FUNCL - 1].PARAM[cnt_PARAM[cnt_FUNCL - 1]].TYPE = p.first;                         // 1-int 2-float 3-char 4-string
-    FUNCL[cnt_FUNCL - 1].PARAM[cnt_PARAM[cnt_FUNCL - 1]].HSNAME=FUNCL[cnt_FUNCL - 1].NAME; // 赋予对应函数的名称
+    FUNCL[cnt_FUNCL - 1].PARAM[cnt_PARAM[cnt_FUNCL - 1]].FUNC=FUNCL[cnt_FUNCL - 1].NAME; // 赋予对应函数的名称
     //  cout << "形参类型是" << FUNCL[cnt_FUNCL - 1].PARAM->CAT << endl;
 
     cnt_PARAM[cnt_FUNCL - 1]++;
@@ -33,7 +33,6 @@ void write_funcl_table(){ // 填写函数表
     FUNCL[cnt_FUNCL].LEVEL = cnt_LEVEL;
     FUNCL[cnt_FUNCL].NAME=x2;
     //  cout << "函数名称为:" << FUNCL[cnt_FUNCL].NAME << endl;
-    FUNCL[cnt_FUNCL].OFF = 3; // 记录函数区距
     // cout << "函数形参个数:" << FUNCL[cnt_FUNCL].FN << endl;
     FUNCL[cnt_FUNCL++].PARAM = new PARAMLNode[20];
     cnt_LEVEL++;

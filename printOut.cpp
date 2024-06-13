@@ -1,6 +1,7 @@
 #include "printOut.h"
 
 void print_all_forms(){ // 输出各种表
+    cout <<"****************************各种表***************************\n";
     cout << "标识符表：";
     for (auto i:Ik)
         cout <<i+"  ";
@@ -31,11 +32,13 @@ void print_all_forms(){ // 输出各种表
     cout << "\n数组类型表：";
     for (auto i:S_Type)
         cout << i << "  ";
+    cout<<"\n\n";
 }
 
 void make_table(){
     int t;
     string d1[]={"","int    ","float  ","char   ","string ","void   "};
+    cout<<"****************************符号表****************************\n";
     cout << "             ******************SYMBL****************\n";
     cout << "                ┌───────────────────────────────┐\n";
     cout << "                │---NAME---│---TYPE---│---XOB---│\n";
@@ -66,35 +69,34 @@ void make_table(){
         }
     }
     cout << "                └───────────────────────────────┘\n\n";
-    cout << "            *****************FUNCTION******************\n";
-    cout << "            ┌─────────────────────────────────────────┐\n";
-    cout << "            │-NAME-│-LEVEL-│-OFF-│-FN-│-ENTRY-│-PARAM-│\n";
-    cout << "            │------│-------│-----│----│-------│-------│\n";
+    cout << "            ****************FUNCTION*****************\n";
+    cout << "            ┌───────────────────────────────────────┐\n";
+    cout << "            │--NAME--│-LEVEL-│--FN--│-ENTRY-│-PARAM-│\n";
+    cout << "            │--------│-------│------│-------│-------│\n";
     for (int i = 0; i < cnt_FUNCL; i++){
-        t=6-FUNCL[i].NAME.length();
+        t=8-FUNCL[i].NAME.length();
         cout << "            │"<< FUNCL[i].NAME<<string(t,' ');
         cout << "│   " << FUNCL[i].LEVEL << "   ";
-        cout << "│  " << FUNCL[i].OFF << "  ";
-        cout << "│ " << FUNCL[i].FN << "  ";
+        cout << "│  " << FUNCL[i].FN << "   ";
         cout << "│ entry │       │\n";
-        cout << "            │------│-------│-----│----│-------│-------│\n";
+        cout << "            │--------│-------│------│-------│-------│\n";
     }
-    cout << "            └─────────────────────────────────────────┘\n\n";
-    cout << "             ******************PARAM****************\n";
-    cout << "                ┌───────────────────────────────┐\n";
-    cout << "                │---NAME---│---TYPE---│---HSN---│\n";
-    cout << "                │----------│----------│---------│\n";
+    cout << "            └───────────────────────────────────────┘\n\n";
+    cout << "             ******************PARAM*****************\n";
+    cout << "                ┌────────────────────────────────┐\n";
+    cout << "                │---NAME---│---TYPE---│---FUNC---│\n";
+    cout << "                │----------│----------│----------│\n";
     for (int i=0;i<cnt_FUNCL;i++)
         for (int j=0;j<cnt_PARAM[i];j++){
             t=7-FUNCL[i].PARAM[j].NAME.length();
             cout<<"                │   "<<FUNCL[i].PARAM[j].NAME<<string(t,' ');
             cout << "│   "<<d1[FUNCL[i].PARAM[j].TYPE]<< "│  ";
-            t=7-FUNCL[i].PARAM[j].HSNAME.length();
-            cout << FUNCL[i].PARAM[j].HSNAME<<string(t,' ');
-            cout << "│\n                │----------│----------│---------│\n";
+            t=8-FUNCL[i].PARAM[j].FUNC.length();
+            cout << FUNCL[i].PARAM[j].FUNC<<string(t,' ');
+            cout << "│\n                │----------│----------│----------│\n";
         }
-    cout << "                └───────────────────────────────┘\n\n";
-    cout << "              ********************ARRAY********************\n";
+    cout << "                └────────────────────────────────┘\n\n";
+    cout << "              ********************ARRAY*********************\n";
     cout << "              ┌────────────────────────────────────────────┐\n";
     cout << "              │--NAME--│---LOW--│---UP---│--TYPE--│--CLEN--│\n";
     cout << "              │--------│--------│--------│--------│--------│\n";
@@ -118,6 +120,7 @@ void make_table(){
 }
 
 void outputQuadruples(){ // 输出所有四元式函数
+    cout<<"****************************四元式序列***************************\n";
     cout << "四元式序列为：\n";
     for(int i=0;quadruple[i] != "";i++)
         cout << quadruple[i]+"\n";

@@ -5,13 +5,12 @@
 struct PARAMLNode{//参数表
     string NAME;//内容（名字）
     int TYPE;//1-int 2-float 3-char 4-string
-    string HSNAME;//对应函数的名字
+    string FUNC;//对应函数的名字
     int ADDR;//地址
 };
 struct FUNCLNode{//函数表
     string NAME;
     int LEVEL;//函数所在层次号
-    int OFF;//区距–该过函自身数据区起始单元相对该过函值区区头位置
     int FN;//参数个数
     int ENTRY;//该函数目标程序首地址
     PARAMLNode* PARAM;//域成分类型结构数组
