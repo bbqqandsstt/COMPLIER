@@ -85,7 +85,7 @@ void quadElse(){ // elseÓï¾ä
 void quadIfEnd(){ // ifÓï¾ä½áÊø
     quadruple[if1]+=to_string(cnt)+")";
     quadruple1[if2]+=to_string(cnt1++)+")";
-    quadruple[cnt]="QT["+to_string(cnt++)+"]:(ie,_,_,_)";
+    quadruple[cnt++]="QT["+to_string(cnt)+"]:(ie,_,_,_)";
     quadruple1[cnt1]="(ie,_,_,_)";
 }
 

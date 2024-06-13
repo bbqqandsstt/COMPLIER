@@ -12,6 +12,8 @@ void main(){
     printf("%f",b);
     if(a>1)
         a=a-1;
+    else
+        a=a+1;
     while(b>1.0)
         b=b-0.5;
     for(a=2;a>1;a++)

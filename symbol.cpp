@@ -7,11 +7,11 @@ ARRAYLNode ARRAY[400];
 FUNCLNode FUNCL[400];
 FUNCLNode PARAM[400];
 
-int cnt_SYMBL = 0;                  // 代表第count_SYNBL+1个表项
-int cnt_TYPEL = 0;                  // 代表第count_TYPEL+1个表项
-int cnt_ARRAY = 0;                  // 代表第count_AINFL+1个表项
-int cnt_FUNCL = 0;                 // 代表第count_PFINFL+1个表项
-int cnt_PARAM[5] = {0, 0, 0, 0, 0}; // 代表第count_PARAM+1个表项
+int cnt_SYMBL = 0;                  // 代表第cnt_SYNBL+1个表项
+int cnt_TYPEL = 0;                  // 代表第cnt_TYPEL+1个表项
+int cnt_ARRAY = 0;                  // 代表第cnt_AINFL+1个表项
+int cnt_FUNCL = 0;                 // 代表第cnt_PFINFL+1个表项
+int cnt_PARAM[5] = {0, 0, 0, 0, 0}; // 代表第cnt_PARAM+1个表项
 int cnt_LEVEL = 3;                  // 记录函数层次号
 
 void write_param_table(){ // 填写函数形参表
@@ -50,14 +50,13 @@ void write_arrayl_table(){
 void write_symbol_table(){ // 填写符号表
     // 填写总表. f(函数)，c(常量)，t(类型)，d(域名)，v, vn, vf(变量，换名形参，赋值形参)
     // I_Type,x4:（int-1,float-2,char-3,string-4,void-5）
-    /*填写SYNBL符号表*/
+    /*填写SYMBL符号表*/
     auto p=I_Type[x4 - 1];
 
     if (x1=="I"){ // 填写int float char string void函数
         if (0<p.first && p.first <5){ // x4:int-1,float-2,char-3,string-4
             SYMBL[cnt_SYMBL].NAME=x2;     // 赋予标识符名称
             SYMBL[cnt_SYMBL].CAT = p.first; // 填写种类
-
             if (p.second == 2)
                 write_param_table();
         }else if (p.first == 5){ // x4:void-5
