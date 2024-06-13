@@ -1,4 +1,4 @@
 #pragma once
 #include "judge.h"
 
-void wordAnalyse();                  //词法分析函数
+void wordAnalyse();         //词法分析函数

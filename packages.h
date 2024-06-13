@@ -7,7 +7,17 @@
 #include<map>
 using namespace std;
 
-struct Array;
+struct Array{
+    string name,len;
+    Array(string n,string l):name(n),len(l){}
+    bool operator<(const Array& a) const{
+        return name<a.name;
+    }
+    friend ostream& operator<<(ostream& out,const Array& a){
+        out<<a.name+"["+a.len+"]";
+        return out;
+    }
+};
 
 extern string formType[10];     //K=1，P=2，I=3......
 extern vector<string> Kk;
@@ -33,15 +43,3 @@ extern vector<int> S_Type;             //数组中标识符所对应的类型
 extern string Input;            ///输入的字符串
 extern int error;                   //判断语法是否错误。0为无错误
 extern vector<pair<int,int>> token;          //Token序列表
-
-struct Array{
-    string name,len;
-    Array(string n,string l):name(n),len(l){}
-    bool operator<(const Array& a) const{
-        return name<a.name;
-    }
-    friend ostream& operator<<(ostream& out,const Array& a){
-        out<<a.name+"["+a.len+"]";
-        return out;
-    }
-};

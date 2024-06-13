@@ -3,9 +3,9 @@
 /*  *****************     符号表填写      *****************  */
 SYMBLNode SYMBL[400];
 TYPELNode TYPEL[400];
-AINFLNode AINFL[400];
-PFINFLNode PFINFL[400];
-PFINFLNode PARAM[400];
+ARRAYLNode AINFL[400];
+FUNCLNode PFINFL[400];
+FUNCLNode PARAM[400];
 
 int count_SYNBL = 0;                  // 代表第count_SYNBL+1个表项
 int count_TYPEL = 0;                  // 代表第count_TYPEL+1个表项

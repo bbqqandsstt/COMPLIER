@@ -184,13 +184,11 @@ void SE(int aa){    //算符表达式 <SE> → [(+|-)<SD><SE>]
         SD(aa);
         if (error)
             return;
-        if (cc-1){
-            quadMinus();
-            jilu++;
-        }else{
+        if (cc-1)
+            quadMinus(); 
+        else
             quadPlus();
-            jilu++;
-        }
+        tag++;
         SE(aa);
         if (error)
             return;
@@ -215,13 +213,11 @@ void SU(int aa){    //算符表达式 <SU> → [(*|/)<SV><SU>]
         SV(aa);
         if (error)
             return;
-        if (cc-3){
+        if (cc-3)
             quadDivide();
-            jilu++;
-        }else{
+        else
             quadMultiply();
-            jilu++;
-        }
+        tag++;
         SU(aa);
         if (error)
             return;
@@ -711,7 +707,7 @@ void PG(int aa){    //判断格式   <PG> → <PF>(<"BS">|<"SS">)
             return;
         }
         quadBool();
-        jilu++;
+        tag++;
     }else
         error = 1;
 }
@@ -795,7 +791,7 @@ void XH(){      //循环语句   <XH> → <while><'('><"BS"><PG><')'><XG>|<for><'('>[
                     s.push(yy);
                     s.push("1");
                     quadPlus();
-                    jilu++;
+                    tag++;
                     quadAssign();
                     y2 = 0;
                 }
@@ -804,7 +800,7 @@ void XH(){      //循环语句   <XH> → <while><'('><"BS"><PG><')'><XG>|<for><'('>[
                     s.push(yy);
                     s.push("1");
                     quadMinus();
-                    jilu++;
+                    tag++;
                     quadAssign();
                     y2 = 0;
                 }
