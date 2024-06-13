@@ -27,6 +27,3 @@ extern string bo;                          // 存取bool的比较符，要插动作
 extern int if1, if2;                       // 用于if四元式回填地址时使用的
 extern int while1, while2, while3, while4; // 用于while四元式回填地址时使用的
 extern int for1, for2, for3, for4;         // 用于for四元式回填地址时使用的
-
-extern int cnt1;
-extern string quadruple1[100];
