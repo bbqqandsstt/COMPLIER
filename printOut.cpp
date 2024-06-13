@@ -60,7 +60,7 @@ void make_table(){
                 cout << "                ©¦   "<< x2<<string(t,' ');
                 cout << "©¦   "<<d1[S_Type[x4 - 1]]<< "©¦ array   ©¦\n";
                 cout << "                ©¦----------©¦----------©¦---------©¦\n";
-                write_ainfl_table();
+                write_arrayl_table();
                 write_symbol_table();
             }
         }
@@ -70,12 +70,12 @@ void make_table(){
     cout << "            ©°©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©´\n";
     cout << "            ©¦-NAME-©¦-LEVEL-©¦-OFF-©¦-FN-©¦-ENTRY-©¦-PARAM-©¦\n";
     cout << "            ©¦------©¦-------©¦-----©¦----©¦-------©¦-------©¦\n";
-    for (int i = 0; i < count_PFINFL; i++){
-        t=6-PFINFL[i].NAME.length();
-        cout << "            ©¦"<< PFINFL[i].NAME<<string(t,' ');
-        cout << "©¦   " << PFINFL[i].LEVEL << "   ";
-        cout << "©¦  " << PFINFL[i].OFF << "  ";
-        cout << "©¦ " << PFINFL[i].FN << "  ";
+    for (int i = 0; i < cnt_FUNCL; i++){
+        t=6-FUNCL[i].NAME.length();
+        cout << "            ©¦"<< FUNCL[i].NAME<<string(t,' ');
+        cout << "©¦   " << FUNCL[i].LEVEL << "   ";
+        cout << "©¦  " << FUNCL[i].OFF << "  ";
+        cout << "©¦ " << FUNCL[i].FN << "  ";
         cout << "©¦ entry ©¦       ©¦\n";
         cout << "            ©¦------©¦-------©¦-----©¦----©¦-------©¦-------©¦\n";
     }
@@ -84,13 +84,13 @@ void make_table(){
     cout << "                ©°©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©´\n";
     cout << "                ©¦---NAME---©¦---TYPE---©¦---HSN---©¦\n";
     cout << "                ©¦----------©¦----------©¦---------©¦\n";
-    for (int i=0;i<count_PFINFL;i++)
-        for (int j=0;j<count_PARAM[i];j++){
-            t=7-PFINFL[i].PARAM[j].NAME.length();
-            cout<<"                ©¦   "<<PFINFL[i].PARAM[j].NAME<<string(t,' ');
-            cout << "©¦   "<<d1[PFINFL[i].PARAM[j].TYPE]<< "©¦  ";
-            t=7-PFINFL[i].PARAM[j].HSNAME.length();
-            cout << PFINFL[i].PARAM[j].HSNAME<<string(t,' ');
+    for (int i=0;i<cnt_FUNCL;i++)
+        for (int j=0;j<cnt_PARAM[i];j++){
+            t=7-FUNCL[i].PARAM[j].NAME.length();
+            cout<<"                ©¦   "<<FUNCL[i].PARAM[j].NAME<<string(t,' ');
+            cout << "©¦   "<<d1[FUNCL[i].PARAM[j].TYPE]<< "©¦  ";
+            t=7-FUNCL[i].PARAM[j].HSNAME.length();
+            cout << FUNCL[i].PARAM[j].HSNAME<<string(t,' ');
             cout << "©¦\n                ©¦----------©¦----------©¦---------©¦\n";
         }
     cout << "                ©¸©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¼\n\n";
@@ -98,19 +98,19 @@ void make_table(){
     cout << "              ©°©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©´\n";
     cout << "              ©¦--NAME--©¦---LOW--©¦---UP---©¦--TYPE--©¦--CLEN--©¦\n";
     cout << "              ©¦--------©¦--------©¦--------©¦--------©¦--------©¦\n";
-    for (int i = 0; i < count_AINFL; i++){
-        cout << "              ©¦ "<< AINFL[i].NAME;
-        t=7-AINFL[i].NAME.length();
+    for (int i = 0; i < cnt_ARRAY; i++){
+        cout << "              ©¦ "<< ARRAY[i].NAME;
+        t=7-ARRAY[i].NAME.length();
         cout<<string(t,' ')<< "©¦    1   ©¦";
-        t=8-to_string(AINFL[i].UP).length();
-        cout<<string(t/2,' ')<<AINFL[i].UP<<string(t/2+t%2,' ')<<"©¦";
-        if (AINFL[i].CTP == 1)
+        t=8-to_string(ARRAY[i].UP).length();
+        cout<<string(t/2,' ')<<ARRAY[i].UP<<string(t/2+t%2,' ')<<"©¦";
+        if (ARRAY[i].CTP == 1)
             cout << "  int   ©¦   4    ©¦\n";
-        else if (AINFL[i].CTP == 2)
+        else if (ARRAY[i].CTP == 2)
             cout << " float  ©¦   8    ©¦\n";
-        else if (AINFL[i].CTP == 3)
+        else if (ARRAY[i].CTP == 3)
             cout << "  char  ©¦   1    ©¦\n";
-        else if (AINFL[i].CTP == 4)
+        else if (ARRAY[i].CTP == 4)
             cout << " string ©¦   8    ©¦\n";
         cout<<"              ©¦--------©¦--------©¦--------©¦--------©¦--------©¦\n";
     }

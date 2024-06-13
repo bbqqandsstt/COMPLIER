@@ -1,0 +1,19 @@
+#include<stdio.h>
+void p(int t){
+    printf("%d",t);
+}
+void main(){
+    int a=1,i;
+    float b=3.14;
+    char c='g';
+    string d="fjjfbdkjbk";
+    int x[3324];
+    scanf("%d",&i);
+    printf("%f",b);
+    if(a>1)
+        a=a-1;
+    while(b>1.0)
+        b=b-0.5;
+    for(a=2;a>1;a++)
+        a=a-2;
+}@
